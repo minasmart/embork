@@ -1,0 +1,3 @@
+# vim: set ft=ruby:
+
+set_project_root 'project_root'
