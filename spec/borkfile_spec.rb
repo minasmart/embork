@@ -5,7 +5,7 @@ empty_borkfile_path = File.expand_path '../support/fixtures/Borkfile.empty', __F
 full_borkfile_path = File.expand_path '../support/fixtures/Borkfile.full', __FILE__
 relative_root_borkfile_path = File.expand_path '../support/fixtures/Borkfile.relative', __FILE__
 
-describe 'Borkfile' do
+describe 'Embork::Borkfile' do
   describe 'defaults' do
     let(:borkfile) { Embork::Borkfile.new empty_borkfile_path }
 
@@ -21,11 +21,7 @@ describe 'Borkfile' do
       expect(borkfile.asset_paths).to include('app/js')
     end
 
-    it 'includes :development config css path' do
-      expect(borkfile.asset_paths).to include('config/development/css')
-    end
-
-    it 'includes :development config js path' do
+    it 'includes :development config in path' do
       expect(borkfile.asset_paths).to include('config/development/js')
     end
 
