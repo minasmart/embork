@@ -64,8 +64,7 @@ class Embork::Borkfile
     default_paths = [
       'app/css',
       'app/js',
-      'config/%s/css' % [ @environment.to_s ],
-      'config/%s/js' % [ @environment.to_s ],
+      'config/%s' % [ @environment.to_s ],
       'components'
     ]
     @asset_paths = default_paths.concat file.asset_paths
