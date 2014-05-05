@@ -22,7 +22,7 @@ describe 'Embork::Borkfile' do
     end
 
     it 'includes :development config in path' do
-      expect(borkfile.asset_paths).to include('config/development/js')
+      expect(borkfile.asset_paths).to include('config/development')
     end
 
     it 'includes components path' do
