@@ -1,3 +1,4 @@
+require 'embork/sprockets_helpers'
 require 'sprockets'
 
 class Embork::Environment
@@ -23,8 +24,9 @@ class Embork::Environment
 
   def setup_helpers
     @borkfile.helpers.each do |helper_proc|
-      @sprockets_environment.context_class.class_eval &helper_proc
+      Embork::SprocketsHelpers.class_eval &helper_proc
     end
+    @sprockets_environment.context_class.class_eval { include Embork::SprocketsHelpers }
   end
 
   def setup_postprocessors

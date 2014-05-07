@@ -18,14 +18,20 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler', '~> 1.3'
-  spec.add_development_dependency 'rspec', '~> 3.0.0.beta1'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'pry', '0.9.12.2'
-
   spec.add_runtime_dependency 'sprockets', '~> 2.0'
   spec.add_runtime_dependency 'ember-source', '~> 1.5.1.1'
   spec.add_runtime_dependency 'handlebars-source', '~> 1.3.0'
   spec.add_runtime_dependency 'thor', '~> 0.19.1'
+  spec.add_runtime_dependency 'rack'
+  spec.add_runtime_dependency 'coffee-script'
+  spec.add_runtime_dependency 'sass'
+  spec.add_runtime_dependency 'es6_module_transpiler-rails'
+
+  spec.add_development_dependency 'bundler', '~> 1.3'
+  spec.add_development_dependency 'rspec', '~> 3.0.0.beta1'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rack-test'
+  spec.add_development_dependency 'rb-fsevent'
+  spec.add_development_dependency 'pry', '0.9.12.2'
 
 end

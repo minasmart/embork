@@ -1,0 +1,10 @@
+{
+  "name": "app",
+  "private": true,
+  "dependencies": {
+    "ember": "~1.5"
+  },
+  "ignore": [
+    "components"
+  ]
+}
