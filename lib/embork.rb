@@ -1,5 +1,15 @@
 require "embork/version"
 
-module Embork
-  # Your code goes here...
+require "embork/borkfile"
+require "embork/environment"
+require "embork/server"
+
+class Embork
+  def self.env
+    @env
+  end
+
+  def self.env=(environment)
+    @env = environment
+  end
 end

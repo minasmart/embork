@@ -1,3 +1,5 @@
+require 'embork'
+
 class Embork::Borkfile
   class DSL
     attr_reader :asset_paths
@@ -5,14 +7,16 @@ class Embork::Borkfile
     attr_reader :project_root
     attr_reader :sprockets_postprocessors
     attr_reader :sprockets_engines
+    attr_reader :backend
 
     def initialize(environment)
-      @environment = environment
+      Embork.env = @environment = environment
       @asset_paths = []
       @helpers = []
       @sprockets_postprocessors = []
       @sprockets_engines = []
       @project_root = nil
+      @backend = :static_index
     end
 
     def register_postprocessor(mime_type, klass)
@@ -35,6 +39,10 @@ class Embork::Borkfile
       @project_root = path
     end
 
+    def set_backend(app)
+      @backend = app
+    end
+
     def configure(environment, &block)
       if environment == @environment
         self.instance_exec &block
@@ -51,6 +59,7 @@ class Embork::Borkfile
   attr_reader :project_root
   attr_reader :sprockets_postprocessors
   attr_reader :sprockets_engines
+  attr_reader :backend
 
   def initialize(path_to_borkfile, environment = :development)
     @path_to_borkfile = path_to_borkfile
@@ -62,8 +71,7 @@ class Embork::Borkfile
 
   def set_options(file)
     default_paths = [
-      'app/css',
-      'app/js',
+      'app',
       'config/%s' % [ @environment.to_s ],
       'components'
     ]
@@ -71,6 +79,7 @@ class Embork::Borkfile
     @helpers = file.helpers
     @sprockets_postprocessors = file.sprockets_postprocessors
     @sprockets_engines = file.sprockets_engines
+    @backend = file.backend
     if file.project_root
       if file.project_root[0] == '/'
         @project_root = file.project_root

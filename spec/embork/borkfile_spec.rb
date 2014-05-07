@@ -1,24 +1,22 @@
-require File.expand_path '../spec_helper', __FILE__
+require 'spec_helper'
 require 'embork/borkfile'
 
-empty_borkfile_path = File.expand_path '../support/fixtures/Borkfile.empty', __FILE__
-full_borkfile_path = File.expand_path '../support/fixtures/Borkfile.full', __FILE__
-relative_root_borkfile_path = File.expand_path '../support/fixtures/Borkfile.relative', __FILE__
+borkfile_dir = File.expand_path '../borkfile', __FILE__
+empty_borkfile_path = File.join borkfile_dir, 'Borkfile.empty'
+full_borkfile_path = File.join borkfile_dir, 'Borkfile.full'
+relative_root_borkfile_path = File.join borkfile_dir, 'Borkfile.relative'
+rack_based_borkfile_path = File.join borkfile_dir, 'Borkfile.rack'
 
 describe 'Embork::Borkfile' do
   describe 'defaults' do
     let(:borkfile) { Embork::Borkfile.new empty_borkfile_path }
 
     it 'uses the files directory as project root' do
-      expect(borkfile.project_root).to match(/.*\/embork\/spec\/support\/fixtures$/)
+      expect(borkfile.project_root).to match(/.*\/embork\/spec\/embork\/borkfile$/)
     end
 
-    it 'includes source css path' do
-      expect(borkfile.asset_paths).to include('app/css')
-    end
-
-    it 'includes source js path' do
-      expect(borkfile.asset_paths).to include('app/js')
+    it 'includes source path' do
+      expect(borkfile.asset_paths).to include('app')
     end
 
     it 'includes :development config in path' do
@@ -64,13 +62,25 @@ describe 'Embork::Borkfile' do
     it 'registered sprockets engines' do
       expect(borkfile.sprockets_engines.length).to eq(1)
     end
+
+    it 'uses pushstate middleware to respond with index.html' do
+      expect(borkfile.backend).to eq(:static_index)
+    end
   end
 
   describe 'relative root' do
     let(:borkfile) { Embork::Borkfile.new relative_root_borkfile_path }
 
     it 'expands the relative path' do
-      expect(borkfile.project_root).to match(/.*\/embork\/spec\/support\/fixtures\/project_root$/)
+      expect(borkfile.project_root).to match(/.*\/embork\/spec\/embork\/borkfile\/project_root$/)
+    end
+  end
+
+  describe 'rack backed' do
+    let(:borkfile) { Embork::Borkfile.new rack_based_borkfile_path }
+
+    it 'specifies that any missing routes are driven by a rack app' do
+      expect(borkfile.backend.class.name.to_sym).to eq(:MyRackApp)
     end
   end
 end

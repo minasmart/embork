@@ -1,3 +1,52 @@
 #!/usr/bin/env ruby
 
 require 'embork'
+require 'thor'
+
+class EmborkCLI < Thor
+  class_option :environment, :type => :string, :default => "develpment",
+    :desc => "The target environment."
+  class_option :borkfile, :type => :string, :default => "./Borkfile",
+    :desc => "Path to the embork config file."
+
+  desc "create APP_NAME", "generate an Embork Ember application called \"APP_NAME\""
+  def create(app_name)
+    puts %q{Creating app "%s"} % app_name
+    Embork::Generator.new(app_name, options)
+  end
+
+  desc "server", "Run the embork development server."
+  def server
+    Embork.new(options).server
+  end
+
+  desc "test [SUBSET]", "Run all tests or a subset specified by SUBSET"
+  def test(subset = nil)
+    Embork.new(options).test
+  end
+
+  desc "clean", "Cleans up the sprockets cache, and removes all build artifacts."
+  def clean
+    Embork.new(options).clean
+  end
+
+  option :target, :type => :string, :desc => "Specify a build target."
+  desc "build", "Build your ember application."
+  long_desc <<-DESC
+    `embork build --environment=production` will build all application targets
+    in production mode.
+
+    You may optionally include --target="application". This will build out all
+    files named application, under the config directory regardless of extension.
+    Ex.
+
+      embork build --target=test
+
+    Would build out test.js, test.html, and test.css if they exist.
+  DESC
+  def build
+    Embork.new(options).build
+  end
+end
+
+EmborkCLI.start(ARGV)

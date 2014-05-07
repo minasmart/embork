@@ -1,0 +1,5 @@
+# vim: set ft=ruby:
+
+class ::MyRackApp
+end
+set_backend MyRackApp.new
