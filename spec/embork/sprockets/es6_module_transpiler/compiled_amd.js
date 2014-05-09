@@ -1,4 +1,4 @@
-define("./my_fancy_module",
+define("my_fancy_module",
   ["math","exports"],
   function(__dependency1__, __exports__) {
     "use strict";

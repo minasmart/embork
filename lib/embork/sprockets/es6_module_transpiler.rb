@@ -35,6 +35,7 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
 
   def evaluate(scope, locals, &block)
     @environment = scope.environment
+    @logical_path = scope.logical_path
     self.class.runtime.exec module_generator
   end
 
@@ -42,21 +43,11 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
     ::JSON.generate data, quirks_mode: true
   end
 
-  def logical_path
-    path_name = Pathname.new File.dirname(file)
-    root_path = Pathname.new @environment.root
-    path_name.relative_path_from(root_path).to_s
-  end
-
-  def logical_name
-    File.join(logical_path, name)
-  end
-
   def module_name
     if self.class.transform
-      self.class.transform.call logical_name
+      self.class.transform.call @logical_path
     else
-      logical_name
+      @logical_path
     end
   end
 

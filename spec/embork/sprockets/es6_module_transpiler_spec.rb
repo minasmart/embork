@@ -14,9 +14,9 @@ describe 'Embork::Sprockets::ES6ModuleTranspiler' do
     end
   end
 
-  let(:amd_specimen) { File.read File.join(root_path, 'compiled_amd.js') }
-  let(:cjs_specimen) { File.read File.join(root_path, 'compiled_cjs.js') }
-  let(:transformed_specimen) { File.read File.join(root_path, 'transformed.js') }
+  let(:amd_specimen) { File.read(File.join(root_path, 'compiled_amd.js')).strip }
+  let(:cjs_specimen) { File.read(File.join(root_path, 'compiled_cjs.js')).strip }
+  let(:transformed_specimen) { File.read(File.join(root_path, 'transformed.js')).strip }
 
   it 'compiles to amd' do
     get '/my_fancy_module.js'
