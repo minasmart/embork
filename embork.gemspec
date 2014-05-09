@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rack'
   spec.add_runtime_dependency 'coffee-script'
   spec.add_runtime_dependency 'sass'
-  spec.add_runtime_dependency 'es6_module_transpiler-rails'
+  spec.add_runtime_dependency 'execjs'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rspec', '~> 3.0.0.beta1'

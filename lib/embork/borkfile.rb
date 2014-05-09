@@ -1,4 +1,5 @@
 require 'embork'
+require 'embork/sprockets/es6_module_transpiler'
 
 class Embork::Borkfile
   class DSL
