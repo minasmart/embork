@@ -10,9 +10,12 @@ class Embork::Sprockets::EmberHandlebarsCompiler < Tilt::Template
 
     CJS_closure = <<-CJS.strip_heredoc
       window.require.define({"%s": function(exports, require, module) {
-        "use strict";
-        var template = %s
-        exports["default"] = template;
+
+      "use strict";
+      var template = %s
+
+      exports["default"] = template;
+
       }});
     CJS
 
@@ -20,10 +23,13 @@ class Embork::Sprockets::EmberHandlebarsCompiler < Tilt::Template
       define("%s",
         ["exports"],
         function(__exports__) {
-          "use strict";
-          var template = %s
-          __exports__["default"] = template;
-        });
+
+      "use strict";
+      var template = %s
+
+      __exports__["default"] = template;
+
+      });
     AMD
 
     def closures(target)
