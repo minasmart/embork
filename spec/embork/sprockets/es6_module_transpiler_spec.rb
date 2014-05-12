@@ -38,7 +38,7 @@ describe 'Embork::Sprockets::ES6ModuleTranspiler' do
   context 'With Transform' do
     before(:all) do
       transform = Proc.new do |module_name|
-        module_name.  split('/').tap{ |parts| parts.shift }.join('_')
+        module_name.split('/').tap{ |parts| parts.shift }.join('_')
       end
       Embork::Sprockets::ES6ModuleTranspiler.transform = transform
     end
