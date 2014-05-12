@@ -3,6 +3,8 @@ require 'tilt'
 require 'execjs'
 require 'pathname'
 
+require 'string/strip'
+
 class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
 
   class << self
@@ -36,7 +38,21 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
   def evaluate(scope, locals, &block)
     @environment = scope.environment
     @logical_path = scope.logical_path
-    self.class.runtime.exec module_generator
+    wrap_in_closure self.class.runtime.exec module_generator
+  end
+
+  def wrap_in_closure(compiled_code)
+    if self.class.compile_to == :cjs
+      <<-CJS.strip_heredoc % [ module_name, compiled_code ]
+      window.require.define({"%s": function(exports, require, module) {
+
+      %s
+
+      }});
+      CJS
+    else
+      compiled_code
+    end
   end
 
   def source

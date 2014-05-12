@@ -1,3 +1,5 @@
+window.require.define({"my_fancy_module": function(exports, require, module) {
+
 "use strict";
 var Point = require("math").Point;
 var pow = require("math").pow;
@@ -14,3 +16,5 @@ function Segment(start, end) {
 }
 
 exports["default"] = Segment;
+
+}});
