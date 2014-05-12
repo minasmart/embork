@@ -10,4 +10,4 @@ function Segment(start, end) {
   );
 }
 
-export default = Segment;
+export default Segment;
