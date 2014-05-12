@@ -1,5 +1,7 @@
 require "embork/version"
 
+require "string/strip"
+
 require "embork/borkfile"
 require "embork/environment"
 require "embork/server"
