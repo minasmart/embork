@@ -41,7 +41,7 @@ describe 'Embork::Sprockets::EmberHandlebarsCompiler' do
     it 'compiles hbs source to ember handlebars' do
       get '/my_hbs_template.js'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(cjs_specimen)
+      expect(last_response.body.strip).to eq(cjs_specimen)
     end
   end
 
@@ -54,7 +54,25 @@ describe 'Embork::Sprockets::EmberHandlebarsCompiler' do
     it 'compiles hbs source to ember handlebars' do
       get '/my_hbs_template.js'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(amd_specimen)
+      expect(last_response.body.strip).to eq(amd_specimen)
+    end
+  end
+
+  context 'Transformed names' do
+    before(:all) do
+      transform = Proc.new do |module_name|
+        module_name.split('/').tap{ |parts| parts.shift }.join('_')
+      end
+      Embork::Sprockets::EmberHandlebarsCompiler.transform = transform
+    end
+    after(:all) { Embork::Sprockets::EmberHandlebarsCompiler.transform = nil }
+
+    let(:transformed_specimen) { File.read(File.join(root_path, 'transformed_template.js')).strip }
+
+    it 'transforms module names with a given proc' do
+      get '/my/hbs/template.js'
+      expect(last_response).to be_ok
+      expect(last_response.body.strip).to eq(transformed_specimen)
     end
   end
 end
