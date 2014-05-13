@@ -3,10 +3,17 @@ require 'sprockets'
 
 class Embork::Environment
   attr_reader :sprockets_environment
+  attr_reader :bundle_version
+  attr_reader :use_bundled_assets
 
-  def initialize(borkfile)
+  def initialize(borkfile, options = {})
     @borkfile = borkfile
-    @sprockets_environment = Sprockets::Environment.new borkfile.project_root
+
+    setup_sprockets
+  end
+
+  def setup_sprockets
+    @sprockets_environment = Sprockets::Environment.new @borkfile.project_root
     cache_path = File.join @borkfile.project_root, '.cache'
     @sprockets_environment.cache = Sprockets::Cache::FileStore.new(cache_path)
 
@@ -20,6 +27,8 @@ class Embork::Environment
 
   def setup_sprockets_defaults
     @sprockets_environment.register_engine '.es6', Embork::Sprockets::ES6ModuleTranspiler
+    @sprockets_environment.register_engine '.hbs', Embork::Sprockets::EmberHandlebarsCompiler
+    @sprockets_environment.register_engine '.handlebars', Embork::Sprockets::EmberHandlebarsCompiler
   end
 
   def setup_paths
