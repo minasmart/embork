@@ -5,19 +5,19 @@ require 'base64'
 
 project_root = File.expand_path '../example_app', __FILE__
 borkfile_path = File.expand_path 'Borkfile', project_root
-index_path = File.expand_path 'app/index.html', project_root
+index_specimen = File.read File.expand_path('app/index.html', project_root)
 
 image_path = File.expand_path 'static/images/image.png', project_root
 image_data = IO.binread(image_path)
 
 class MyRackBackend
   attr_reader :app
-  def initialize(app, options = {})
+  def initialize(app = nil, options = {})
     @app = app
   end
 
   def call(env)
-    body = "You visited \"%s\"." % [ env['PATH_INFO'] ]
+    body = %{You visited '%s'.} % [ env['PATH_INFO'] ]
     status = 200
     headers = Hash.new
     [ status, headers, body ]
@@ -60,18 +60,18 @@ describe 'Embork::Server' do
     it 'responds with index.html at the root path' do
       get '/'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(File.read index_path)
+      expect(last_response.body).to eq(index_specimen)
     end
 
     it 'responds with index.html for arbitrary paths' do
       get '/foo/bar'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(File.read index_path)
+      expect(last_response.body).to eq(index_specimen)
     end
 
   end
 
-  context "rack_backed" do
+  context 'rack backed' do
     let(:rack_backed_borkfile) { b = borkfile.dup; b.instance_eval { @backend = MyRackBackend }; b }
     let(:server) { Embork::Server.new rack_backed_borkfile }
     let(:app) { server.app }
@@ -79,13 +79,13 @@ describe 'Embork::Server' do
     it 'serves out the index using the rack app' do
       get '/'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq('You visited "/".')
+      expect(last_response.body).to eq(%{You visited '/'.})
     end
 
     it 'serves out arbitrary paths using rack' do
       get '/foo/bar'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq('You visited "/foo/bar".')
+      expect(last_response.body).to eq(%{You visited '/foo/bar'.})
     end
 
     it 'continues to serve out sprockets assets' do
@@ -95,4 +95,57 @@ describe 'Embork::Server' do
     end
   end
 
+  context 'bundled assets' do
+    let(:server) { Embork::Server.new borkfile, :use_asset_bundle_version => '12345' }
+    let(:app) { server.app }
+
+    it 'serves out bundled assets' do
+      get '/application-12345.js'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(js_specimen)
+    end
+
+    it 'serves out the index' do
+      get '/index.html'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(index_specimen)
+    end
+
+    it 'serves out the index for the root path' do
+      get '/'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(index_specimen)
+    end
+
+    it 'servers out the index for arbitrary paths' do
+      get '/foo/bar'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(index_specimen)
+    end
+  end
+
+  context 'bundled assets and rack backend' do
+    let(:rack_backed_borkfile) { b = borkfile.dup; b.instance_eval { @backend = MyRackBackend }; b }
+    let(:server) { Embork::Server.new rack_backed_borkfile, :use_asset_bundle_version => '12345' }
+    let(:app) { server.app }
+
+    it 'serves out bundled assets' do
+      get '/application-12345.js'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(js_specimen)
+    end
+
+    it 'serves out the index using the rack app' do
+      get '/'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(%{You visited '/'.})
+    end
+
+    it 'serves out arbitrary paths using rack' do
+      get '/foo/bar'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(%{You visited '/foo/bar'.})
+    end
+
+  end
 end

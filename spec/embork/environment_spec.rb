@@ -47,4 +47,5 @@ describe 'Embork::Environment' do
   it 'uses a file-based persistent cache' do
     expect(environment.sprockets_environment.cache.class).to eq(Sprockets::Cache::FileStore)
   end
+
 end
