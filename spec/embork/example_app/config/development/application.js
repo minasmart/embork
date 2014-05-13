@@ -1,6 +1,4 @@
-//= require jquery/dist/jquery.js
-//= require handlebars/handlebars.runtime.js
-//= require ember/ember.js
+//= require some/component
 //= require_tree ../../app
 //
 
