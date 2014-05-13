@@ -1,2 +1,0 @@
-module Embork::SprocketsHelpers
-end
