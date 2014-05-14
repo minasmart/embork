@@ -16,3 +16,5 @@ test/tmp
 test/version_tmp
 tmp
 spec/embork/example_app/.cache
+spec/embork/builder/build
+spec/embork/builder/.cache
