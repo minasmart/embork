@@ -1,0 +1,16 @@
+# vim: set ft=ruby:
+# Borkfile
+
+set_project_root '.'
+
+add_sprockets_helpers do
+end
+
+configure :development do
+end
+
+configure :production do
+end
+
+set_backend :static_index
+
