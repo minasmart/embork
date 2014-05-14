@@ -1,7 +1,6 @@
 require 'json'
 require 'tilt'
 require 'execjs'
-require 'pathname'
 
 require 'string/strip'
 
