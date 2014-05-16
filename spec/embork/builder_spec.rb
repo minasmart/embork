@@ -13,19 +13,20 @@ describe 'Embork::Builder' do
   let(:builder) { Embork::Builder.new borkfile }
   let(:expected_files) do
     [
-      'application.css',
-      'application.js',
-      'index.html',
-      'deeply/nested/asset.js',
+      'application-%s.css',
+      'application-%s.js',
+      'deeply/nested/asset-%s.js',
       'images/image.png',
+      'index-%s.html',
+      'index.html'
     ]
   end
 
   before(:each) { @asset_bundle_version = builder.build }
-  after(:each) { builder.clean @asset_bundle_version }
+  after(:each) { builder.clean }
 
   it 'builds assets' do
-    build_directory = File.join(root_path, 'build')
+    build_directory = File.join(root_path, 'build', 'production')
     expect(File.exists? build_directory).to be true
 
     generated_files = []
@@ -35,10 +36,10 @@ describe 'Embork::Builder' do
         generated_files.push path.relative_path_from(Pathname.new build_directory).to_s
       end
     end
-    expect(generated_files).to match_array(expected_files)
+    expect(generated_files).to match_array(expected_files.map{ |f| f % [ @asset_bundle_version ] })
   end
 
-  it 'compiles environment settings into files' do
+  it 'it compiles proper links into script tags' do
 
   end
 end
