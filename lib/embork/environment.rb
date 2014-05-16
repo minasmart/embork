@@ -41,7 +41,10 @@ class Embork::Environment
     @borkfile.helpers.each do |helper_proc|
       Embork::Sprockets::Helpers.class_eval &helper_proc
     end
-    @sprockets_environment.context_class.class_eval { include Embork::Sprockets::Helpers }
+    @sprockets_environment.context_class.class_eval do
+      include Embork::Sprockets::Helpers
+      extend Embork::Sprockets::Helpers::ClassMethods
+    end
   end
 
   def setup_postprocessors
