@@ -16,6 +16,9 @@ class Embork::Builder
     @sprockets_environment = @environment.sprockets_environment
     @version = Time.now.to_s.gsub(/( -|-| |:)/, '.')
 
+    @sprockets_environment.context_class.use_bundled_assets = true
+    @sprockets_environment.context_class.bundled_version = @version
+
     Dir.chdir @borkfile.project_root do
       config_path = File.join 'config', Embork.env.to_s
       build_path = File.join 'build', Embork.env.to_s
