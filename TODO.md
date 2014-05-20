@@ -3,7 +3,7 @@ TODO
 
 - [x] add helpers to run from built or generated files
 - [ ] Add html files to Borkfile. Discreet list of what to build. Don't assume.
-- [ ] Use in-memory caching for building html files.
+- [x] Use no cache for erb files.
 - [ ] Add `:keep_old_versions` to Borkfile to configure the number of old versions
 - [ ] Create blank Borkfile with all options presented and probably commented out.
 - [ ] Create full blown example project.
