@@ -6,11 +6,12 @@ require 'embork/builder'
 
 require 'pathname'
 
-root_path = File.expand_path '../builder', __FILE__
 
 describe 'Embork::Builder' do
+  let(:root_path) { File.expand_path '../builder', __FILE__ }
   let(:borkfile) { Embork::Borkfile.new File.join(root_path, 'Borkfile'), :production }
   let(:builder) { Embork::Builder.new borkfile }
+  let(:build_directory) { File.join(root_path, 'build', 'production') }
   let(:expected_files) do
     [
       'application-%s.css',
@@ -26,7 +27,6 @@ describe 'Embork::Builder' do
   after(:each) { builder.clean }
 
   it 'builds assets' do
-    build_directory = File.join(root_path, 'build', 'production')
     expect(File.exists? build_directory).to be true
 
     generated_files = []
@@ -39,7 +39,15 @@ describe 'Embork::Builder' do
     expect(generated_files).to match_array(expected_files.map{ |f| f % [ @asset_bundle_version ] })
   end
 
-  it 'it compiles proper links into script tags' do
+  context 'asset_helpers' do
+    let(:index_read) { File.read File.join(build_directory, 'index.html') }
 
+    it 'it compiles javascript tags to use bundled assets' do
+      expect(index_read).to include(%{<script src="/application-#{@asset_bundle_version}.js"></script>})
+    end
+
+    it 'it compiles style tags to use bundled assets' do
+      expect(index_read).to include(%{<link href="/application-#{@asset_bundle_version}.css" rel="stylesheet" type="text/css" media="all"></link>})
+    end
   end
 end
