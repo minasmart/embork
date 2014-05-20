@@ -6,6 +6,17 @@ class Embork::Environment
   attr_reader :bundle_version
   attr_reader :use_bundled_assets
 
+  class ErblessCache < Sprockets::Cache::FileStore
+    def []=(key, value)
+      # This is ugly, but it keeps ERB fresh
+      if value["pathname"].match /\.erb($|\.)/
+        value
+      else
+        super
+      end
+    end
+  end
+
   def initialize(borkfile, options = {})
     @borkfile = borkfile
 
@@ -15,7 +26,7 @@ class Embork::Environment
   def setup_sprockets
     @sprockets_environment = Sprockets::Environment.new @borkfile.project_root
     cache_path = File.join @borkfile.project_root, '.cache'
-    @sprockets_environment.cache = Sprockets::Cache::FileStore.new(cache_path)
+    @sprockets_environment.cache = ErblessCache.new(cache_path)
 
     setup_sprockets_defaults
 

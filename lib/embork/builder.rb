@@ -15,10 +15,6 @@ class Embork::Builder
     @environment = Embork::Environment.new(@borkfile)
     @sprockets_environment = @environment.sprockets_environment
 
-    # Remove me.
-    # This should be handled for compiling html files specifically, which is
-    # predicated on configuring which html files to build
-    @sprockets_environment.cache = {}
     @version = Time.now.to_s.gsub(/( -|-| |:)/, '.')
 
     @sprockets_environment.context_class.use_bundled_assets = true
