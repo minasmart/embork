@@ -13,10 +13,14 @@ end
 register_postprocessor 'application/javascript', class MyPostProcessor; end
 register_engine '.stuff', class MyEngine; end
 
+compile_html [ 'index.html' ]
+
 configure :development do
   append_asset_path 'foo/dev/js'
+  compile_html 'dev.html'
 end
 
 configure :production do
   append_asset_path 'foo/prod/js'
+  compile_html 'prod.html'
 end

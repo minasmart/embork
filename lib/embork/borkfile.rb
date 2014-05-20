@@ -9,6 +9,7 @@ class Embork::Borkfile
     attr_reader :sprockets_postprocessors
     attr_reader :sprockets_engines
     attr_reader :backend
+    attr_reader :html
 
     def initialize(environment)
       Embork.env = @environment = environment
@@ -17,6 +18,7 @@ class Embork::Borkfile
       @sprockets_postprocessors = []
       @sprockets_engines = []
       @project_root = nil
+      @html = []
       @backend = :static_index
     end
 
@@ -53,6 +55,11 @@ class Embork::Borkfile
     def get_binding
       return binding
     end
+
+    def compile_html(files)
+      files = [ files ] unless files.kind_of? Array
+      @html.concat files
+    end
   end
 
   attr_reader :asset_paths
@@ -61,6 +68,7 @@ class Embork::Borkfile
   attr_reader :sprockets_postprocessors
   attr_reader :sprockets_engines
   attr_reader :backend
+  attr_reader :html
 
   def initialize(path_to_borkfile, environment = :development)
     @path_to_borkfile = path_to_borkfile
@@ -81,6 +89,7 @@ class Embork::Borkfile
     @sprockets_postprocessors = file.sprockets_postprocessors
     @sprockets_engines = file.sprockets_engines
     @backend = file.backend
+    @html = file.html
     if file.project_root
       if file.project_root[0] == '/'
         @project_root = file.project_root

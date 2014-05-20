@@ -103,7 +103,7 @@ class Embork::Builder
 
     # Optionally add an index. This should probably actually rely on a config
     # paramater in the borkfile listing out the html files to build.
-    assets.push 'index.html' if @borkfile.backend == :static_index
+    assets.concat @borkfile.html
 
     assets
   end
