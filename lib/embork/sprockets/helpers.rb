@@ -6,15 +6,21 @@ module Embork::Sprockets::Helpers
 
   def javascript_include_tag(path)
     script = self.class.use_bundled_assets ? generate_versioned_name(path) : path
-    "<script src=\"%s\"></script>" % [ script ]
+    %{<script src="%s"></script>} % [ script ]
   end
 
   def javascript_embed_tag
   end
 
-  def stylesheet_link_tag(path)
+  def stylesheet_link_tag(path, options = {})
+    options = { :media => :all }.merge options
+
     stylesheet = self.class.use_bundled_assets ? generate_versioned_name(path) : path
-    "<script src=\"%s\"></script>" % [ stylesheet ]
+
+    %{<link href="%s" rel="stylesheet" type="text/css" media="%s"></link>} % [
+      stylesheet,
+      options[:media].to_s
+    ]
   end
 
   def stylesheet_embed_tag
@@ -22,7 +28,7 @@ module Embork::Sprockets::Helpers
 
   protected
 
-  def generate_versioned_name(path)
+  def generate_versioned_name(path_to_file)
     ext = File.extname path_to_file
     base = File.basename path_to_file, ext
     path = File.dirname path_to_file
