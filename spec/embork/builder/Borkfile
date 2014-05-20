@@ -6,6 +6,8 @@ set_project_root '.'
 add_sprockets_helpers do
 end
 
+compile_html 'index.html'
+
 configure :development do
 end
 

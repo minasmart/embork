@@ -63,6 +63,14 @@ describe 'Embork::Borkfile' do
       expect(borkfile.sprockets_engines.length).to eq(1)
     end
 
+    it 'specifies html files to build by environment' do
+      expect(borkfile.html).to match_array [ 'index.html', 'dev.html' ]
+    end
+
+    it 'does not pick up other environment\'s html files' do
+      expect(borkfile.html).not_to include 'prod.html'
+    end
+
     it 'uses pushstate middleware to respond with index.html' do
       expect(borkfile.backend).to eq(:static_index)
     end
