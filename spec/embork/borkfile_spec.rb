@@ -30,6 +30,10 @@ describe 'Embork::Borkfile' do
     it 'has no defined helpers' do
       expect(borkfile.helpers).to be_empty
     end
+
+    it 'has no html files' do
+      expect(borkfile.html).to be_empty
+    end
   end
 
   describe 'basic config' do
