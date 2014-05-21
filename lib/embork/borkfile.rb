@@ -12,6 +12,10 @@ class Embork::Borkfile
     attr_reader :html
     attr_reader :port
     attr_reader :host
+
+    def keep_old_versions(number_to_keep = nil)
+      @keep_old_versions = number_to_keep || @keep_old_versions
+    end
   end
 
   class DSL
@@ -26,6 +30,7 @@ class Embork::Borkfile
       @project_root = nil
       @html = []
       @backend = :static_index
+      @keep_old_versions = 5
     end
 
     def register_postprocessor(mime_type, klass)
@@ -90,6 +95,7 @@ class Embork::Borkfile
     @sprockets_engines = file.sprockets_engines
     @backend = file.backend
     @html = file.html
+    @keep_old_versions = file.keep_old_versions
     if file.project_root
       if file.project_root[0] == '/'
         @project_root = file.project_root

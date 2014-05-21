@@ -34,6 +34,10 @@ describe 'Embork::Borkfile' do
     it 'has no html files' do
       expect(borkfile.html).to be_empty
     end
+
+    it 'keeps five old versions' do
+      expect(borkfile.keep_old_versions).to eq(5)
+    end
   end
 
   describe 'basic config' do
@@ -77,6 +81,10 @@ describe 'Embork::Borkfile' do
 
     it 'uses pushstate middleware to respond with index.html' do
       expect(borkfile.backend).to eq(:static_index)
+    end
+
+    it 'keeps the specified number of old versions' do
+      expect(borkfile.keep_old_versions).to eq(10)
     end
   end
 
