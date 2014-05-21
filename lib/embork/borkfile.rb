@@ -2,7 +2,7 @@ require 'embork'
 require 'embork/sprockets/es6_module_transpiler'
 
 class Embork::Borkfile
-  class DSL
+  module Attributes
     attr_reader :asset_paths
     attr_reader :helpers
     attr_reader :project_root
@@ -10,6 +10,12 @@ class Embork::Borkfile
     attr_reader :sprockets_engines
     attr_reader :backend
     attr_reader :html
+    attr_reader :port
+    attr_reader :host
+  end
+
+  class DSL
+    include Attributes
 
     def initialize(environment)
       Embork.env = @environment = environment
@@ -62,13 +68,7 @@ class Embork::Borkfile
     end
   end
 
-  attr_reader :asset_paths
-  attr_reader :helpers
-  attr_reader :project_root
-  attr_reader :sprockets_postprocessors
-  attr_reader :sprockets_engines
-  attr_reader :backend
-  attr_reader :html
+  include Attributes
 
   def initialize(path_to_borkfile, environment = :development)
     @path_to_borkfile = path_to_borkfile
