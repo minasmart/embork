@@ -47,7 +47,13 @@ class Embork::Builder
       # Link the index file since, chances are, you don't want to reconfigure
       # your index file every time you deploy.
       Dir.chdir build_path do
-        FileUtils.ln_sf "index-#{@version}.html", 'index.html'
+        @borkfile.html.each do |file|
+          dirname = File.dirname file
+          extname = File.extname file
+          basename = File.basename file, extname
+          src_format = [ File.join(dirname, basename), @version, extname ]
+          FileUtils.ln_sf(("%s-%s%s" % src_format), file)
+        end
       end if @borkfile.backend == :static_index
 
       static_path = 'static'
@@ -82,6 +88,43 @@ class Embork::Builder
   end
 
   def clean
+    build_path = File.join(@borkfile.project_root, 'build', Embork.env.to_s)
+    version_format = /\d{4}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{4}/
+
+    date_codes = []
+    Find.find(build_path) do |file|
+      m = File.basename(file).match version_format
+      date_codes.push m[0] unless m.nil?
+    end
+
+    # Tidy up!
+    date_codes.uniq!.sort!.reverse!
+
+    # If there are more than our threshold
+    if date_codes.length > @borkfile.keep_old_versions
+
+      # Grab the versions to keep
+      retained_versions = date_codes[0...@borkfile.keep_old_versions]
+
+      Find.find(build_path) do |file|
+        name = File.basename(file)
+
+        # Skip if this is an unversioned file
+        next unless name.match version_format
+
+        # If any version strings that we should retain are in the file name,
+        # skip to next. Otherwise, obliterate.
+        if retained_versions.any?{ |version| name.include?(version) }
+          next
+        else
+          Dir.chdir(build_path){ FileUtils.rm file }
+        end
+      end
+    end
+
+  end
+
+  def clean!
     FileUtils.rm_rf File.join(@borkfile.project_root, 'build', Embork.env.to_s)
   end
 
