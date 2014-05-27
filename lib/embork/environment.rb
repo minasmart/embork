@@ -36,12 +36,12 @@ class Embork::Environment
 
     setup_paths
     setup_helpers
-    setup_postprocessors
+    setup_processors
     setup_engines
   end
 
   def setup_sprockets_defaults
-    @sprockets_environment.register_engine '.es6', Embork::Sprockets::ES6ModuleTranspiler
+    @sprockets_environment.register_preprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
     @sprockets_environment.register_engine '.hbs', Embork::Sprockets::EmberHandlebarsCompiler
     @sprockets_environment.register_engine '.handlebars', Embork::Sprockets::EmberHandlebarsCompiler
   end
@@ -62,9 +62,12 @@ class Embork::Environment
     end
   end
 
-  def setup_postprocessors
+  def setup_processors
     @borkfile.sprockets_postprocessors.each do |processor|
       @sprockets_environment.register_postprocessor processor[:mime_type], processor[:klass]
+    end
+    @borkfile.sprockets_preprocessors.each do |processor|
+      @sprockets_environment.register_preprocessor processor[:mime_type], processor[:klass]
     end
   end
 

@@ -29,15 +29,21 @@ class Embork::Borkfile
       @asset_paths = []
       @helpers = []
       @sprockets_postprocessors = []
+      @sprockets_preprocessors = []
       @sprockets_engines = []
       @project_root = nil
       @html = []
       @backend = :static_index
       @keep_old_versions = 5
+      @es6_namespace = nil
     end
 
     def register_postprocessor(mime_type, klass)
       @sprockets_postprocessors.push({ :mime_type => mime_type, :klass => klass })
+    end
+
+    def register_preprocessor(mime_type, klass)
+      @sprockets_preprocessors.push({ :mime_type => mime_type, :klass => klass })
     end
 
     def register_engine(extension, klass)

@@ -6,7 +6,8 @@ require 'ostruct'
 
 describe 'Embork::Environment' do
 
-  let(:my_processor) { class MyProcessor; end }
+  let(:my_postprocessor) { class MyPostProcessor; end }
+  let(:my_preprocessor) { class MyPreProcessor; end }
 
   let(:my_engine) { class MyEngine; end }
 
@@ -15,14 +16,23 @@ describe 'Embork::Environment' do
     :helpers => [ Proc.new { def my_helper; end; } ],
     :project_root => '/project_root',
     :sprockets_postprocessors => [
-      { :mime_type => 'application/bork', :klass => my_processor }
+      { :mime_type => 'application/bork', :klass => my_postprocessor }
+    ],
+    :sprockets_preprocessors => [
+      { :mime_type => 'application/bork', :klass => my_preprocessor }
     ],
     :sprockets_engines => [
       { :extension => '.bork', :klass => my_engine }
-    ]
+    ],
+    :es6_namespace => 'my-package'
   })}
 
   let (:environment) { Embork::Environment.new borkfile }
+
+  after(:all) do
+    Embork::Sprockets::ES6ModuleTranspiler.namespace = nil
+    Embork::Sprockets::ES6ModuleTranspiler.transform = nil
+  end
 
   it 'respects the project root' do
     expect(environment.sprockets_environment.root).to eq('/project_root')
@@ -37,7 +47,11 @@ describe 'Embork::Environment' do
   end
 
   it 'adds post-processers by mime type' do
-    expect(environment.sprockets_environment.postprocessors('application/bork')).to include(my_processor)
+    expect(environment.sprockets_environment.postprocessors('application/bork')).to include(my_postprocessor)
+  end
+
+  it 'adds pre-processers by mime type' do
+    expect(environment.sprockets_environment.preprocessors('application/bork')).to include(my_preprocessor)
   end
 
   it 'adds engines my extension' do
