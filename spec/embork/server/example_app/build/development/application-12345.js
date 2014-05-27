@@ -3,7 +3,8 @@ define("some/component",
   function(__exports__) {
     "use strict";
     __exports__["default"] = function SomeComponentFunction(){ alert('Woohoo'); };
-  });define("app",
+  });
+define("app",
   ["my-app/some_component","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
@@ -11,7 +12,3 @@ define("some/component",
 
     __exports__["default"] = Ember.Application.create("development");
   });
-
-//
-
-;

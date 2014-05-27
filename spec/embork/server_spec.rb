@@ -25,10 +25,10 @@ class MyRackBackend
 end
 
 js_specimen = nil
-File.open(File.expand_path('../server/specimen.js', __FILE__), 'r:UTF-8') { |f| js_specimen = f.read }
+File.open(File.expand_path('../server/specimen.js', __FILE__), 'r:UTF-8') { |f| js_specimen = f.read.strip }
 
 css_specimen = nil
-File.open(File.expand_path('../server/specimen.css', __FILE__), 'r:UTF-8') { |f| css_specimen = f.read }
+File.open(File.expand_path('../server/specimen.css', __FILE__), 'r:UTF-8') { |f| css_specimen = f.read.strip }
 
 describe 'Embork::Server' do
 
@@ -43,13 +43,13 @@ describe 'Embork::Server' do
     it 'serves out compiled js' do
       get '/application.js'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(js_specimen)
+      expect(last_response.body.strip).to eq(js_specimen)
     end
 
     it 'serves out compiled css' do
       get '/application.css'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(css_specimen)
+      expect(last_response.body.strip).to eq(css_specimen)
     end
 
     it 'serves out static files' do
@@ -92,7 +92,7 @@ describe 'Embork::Server' do
     it 'continues to serve out sprockets assets' do
       get '/application.css'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(css_specimen)
+      expect(last_response.body.strip).to eq(css_specimen)
     end
   end
 
@@ -103,7 +103,7 @@ describe 'Embork::Server' do
     it 'serves out bundled assets' do
       get '/application-12345.js'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(js_specimen)
+      expect(last_response.body.strip).to eq(js_specimen)
     end
 
     it 'serves out the index' do
@@ -133,7 +133,7 @@ describe 'Embork::Server' do
     it 'serves out bundled assets' do
       get '/application-12345.js'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq(js_specimen)
+      expect(last_response.body.strip).to eq(js_specimen)
     end
 
     it 'serves out the index using the rack app' do
