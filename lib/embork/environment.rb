@@ -9,7 +9,7 @@ class Embork::Environment
   class ErblessCache < Sprockets::Cache::FileStore
     def []=(key, value)
       # This is ugly, but it keeps ERB fresh
-      if value["pathname"].match /\.erb($|\.)/
+      if value.has_key?('pathname') && value["pathname"].match(/\.erb($|\.)/)
         value
       else
         super
