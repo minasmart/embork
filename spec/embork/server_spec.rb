@@ -3,7 +3,7 @@ require 'embork/server'
 
 require 'base64'
 
-project_root = File.expand_path '../example_app', __FILE__
+project_root = File.expand_path '../server/example_app', __FILE__
 borkfile_path = File.expand_path 'Borkfile', project_root
 index_specimen = File.read File.expand_path('app/index.html', project_root)
 
@@ -32,6 +32,7 @@ File.open(File.expand_path('../server/specimen.css', __FILE__), 'r:UTF-8') { |f|
 
 describe 'Embork::Server' do
 
+  before(:each) { FileUtils.rm_rf File.join(project_root, '.cache') }
   let(:borkfile) { Embork::Borkfile.new borkfile_path }
 
   context 'pushState backed' do

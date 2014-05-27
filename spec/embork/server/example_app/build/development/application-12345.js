@@ -10,11 +10,8 @@ define("some/component",
     var SomeComponent = __dependency1__["default"];
 
     __exports__["default"] = Ember.Application.create("development");
-  });define("application",
-  [],
-  function() {
-    "use strict";
-
-
-    //
   });
+
+//
+
+;
