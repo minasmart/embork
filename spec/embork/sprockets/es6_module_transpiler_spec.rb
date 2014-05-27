@@ -5,9 +5,10 @@ require 'embork/sprockets/es6_module_transpiler'
 describe 'Embork::Sprockets::ES6ModuleTranspiler' do
   let(:root_path) { File.expand_path '../es6_module_transpiler', __FILE__ }
 
+  let(:sprockets_environment) { Sprockets::Environment.new root_path }
   let(:app) do
-    s = Sprockets::Environment.new root_path
-    s.register_engine '.es6', Embork::Sprockets::ES6ModuleTranspiler
+    s = sprockets_environment
+    s.register_preprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
     s.append_path '.'
     Rack::Builder.new do
       run s
