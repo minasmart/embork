@@ -7,14 +7,17 @@ class Embork::Borkfile
     attr_reader :helpers
     attr_reader :project_root
     attr_reader :sprockets_postprocessors
+    attr_reader :sprockets_preprocessors
     attr_reader :sprockets_engines
     attr_reader :backend
     attr_reader :html
-    attr_reader :port
-    attr_reader :host
 
     def keep_old_versions(number_to_keep = nil)
       @keep_old_versions = number_to_keep || @keep_old_versions
+    end
+
+    def es6_namespace(namespace = nil)
+      @es6_namespace = namespace || @es6_namespace
     end
   end
 

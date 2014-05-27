@@ -47,10 +47,30 @@ describe 'Embork::Sprockets::ES6ModuleTranspiler' do
 
     let(:transformed_specimen) { File.read(File.join(root_path, 'transformed.js')).strip }
 
-    it 'compiler transforms module name' do
+    it 'transforms module name' do
       get '/my/transformed/module.js'
       expect(last_response).to be_ok
       expect(last_response.body.strip).to eq(transformed_specimen)
     end
+  end
+
+  context 'With namespace' do
+
+    before(:all) do
+      Embork::Sprockets::ES6ModuleTranspiler.namespace = 'my-package'
+    end
+
+    after(:all) do
+      Embork::Sprockets::ES6ModuleTranspiler.namespace = nil
+    end
+
+    let(:namespaced_specimen) { File.read(File.join(root_path, 'namespaced.js')).strip }
+
+    it 'adds a namespace to the module name' do
+      get '/my_fancy_module.js'
+      expect(last_response).to be_ok
+      expect(last_response.body.strip).to eq(namespaced_specimen)
+    end
+
   end
 end

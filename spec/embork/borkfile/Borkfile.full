@@ -6,6 +6,8 @@ set_project_root '/tmp/project_root'
 
 append_asset_path 'foo/css'
 
+es6_namespace 'my-package'
+
 add_sprockets_helpers do
   def empty_span
     '<span></span>'

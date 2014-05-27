@@ -21,6 +21,10 @@ class Embork::Environment
     @borkfile = borkfile
 
     setup_sprockets
+
+    if !@borkfile.es6_namespace.nil?
+      Embork::Sprockets::ES6ModuleTranspiler.namespace = @borkfile.es6_namespace
+    end
   end
 
   def setup_sprockets

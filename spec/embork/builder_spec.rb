@@ -22,6 +22,12 @@ describe 'Embork::Builder' do
     ]
   end
 
+  after(:each) { FileUtils.rm_rf File.join(root_path, '.cache') }
+  after(:all) do
+    Embork::Sprockets::ES6ModuleTranspiler.namespace = nil
+    Embork::Sprockets::ES6ModuleTranspiler.transform = nil
+  end
+
   let(:built_files) do
     [].tap do |files|
       Dir.glob(File.join(build_directory, '**/*')) do |file|

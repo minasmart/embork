@@ -8,6 +8,8 @@ end
 
 compile_html 'index.html'
 
+es6_namespace 'my-package'
+
 configure :development do
 end
 
