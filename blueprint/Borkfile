@@ -1,0 +1,36 @@
+# vim: set ft=ruby:
+# Borkfile
+
+keep_old_versions 5
+
+set_project_root '.'
+
+# Add paths:
+#
+#   append_asset_path 'foo/bar'
+
+# Add sprockets pre/post processors and template engines:
+#
+#   register_postprocessor 'application/javascript', SomeClass
+#   register_engine '.some-ext, SomeEngine
+
+add_sprockets_helpers do
+end
+
+# Pass in a single file or an array.
+compile_html 'index.html'
+
+es6_namespace '<%= namespace %>'
+
+# Call anything of these things inside a `configure <environment>` block to
+# make it environment specific
+configure :development do
+end
+
+configure :production do
+end
+
+# Use :static index to fall back to sprockets-built html files OR pass in
+# a rack application
+set_backend :static_index
+
