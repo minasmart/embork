@@ -43,14 +43,29 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
     @context = @environment.context_class.new(@environment, @logical_path, scope.pathname)
 
     # If this is a manifest, don't compile it
-    manifest? ? data : wrap_in_closure(self.class.runtime.exec module_generator)
+    if manifest? || component?
+      data
+    else
+      wrap_in_closure(self.class.runtime.exec module_generator)
+    end
+  end
+
+  def path_relative_to_root
+    if @path_relative_to_root
+      @path_relative_to_root
+    else
+      file_root_pathname = Pathname.new(@context.root_path)
+      environment_root_pathname = Pathname.new(@environment.root)
+      @path_relative_to_root = file_root_pathname.relative_path_from environment_root_pathname
+    end
   end
 
   def manifest?
-    file_root_pathname = Pathname.new(@context.root_path)
-    environment_root_pathname = Pathname.new(@environment.root)
-    root_path = file_root_pathname.relative_path_from environment_root_pathname
-    !!root_path.to_s.match(/^config/)
+    !!path_relative_to_root.to_s.match(/^config/)
+  end
+
+  def component?
+    !!path_relative_to_root.to_s.match(/^components/)
   end
 
   def wrap_in_closure(compiled_code)

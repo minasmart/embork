@@ -9,7 +9,9 @@ describe 'Embork::Sprockets::ES6ModuleTranspiler' do
   let(:app) do
     s = sprockets_environment
     s.register_preprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
-    s.append_path '.'
+    s.append_path 'app'
+    s.append_path 'components'
+    s.append_path 'config'
     Rack::Builder.new do
       run s
     end
@@ -73,5 +75,23 @@ describe 'Embork::Sprockets::ES6ModuleTranspiler' do
       expect(last_response.body.strip).to eq(namespaced_specimen)
     end
 
+  end
+
+  context 'Manifests and components' do
+    let(:manifest_specimen) { File.read(File.join(root_path, 'manifest.js')).strip }
+
+    let(:component_specimen) { File.read(File.join(root_path, 'component.js')).strip }
+
+    it 'doesn\'t compile manifests' do
+      get '/application.js'
+      expect(last_response).to be_ok
+      expect(last_response.body.strip).to eq(manifest_specimen)
+    end
+
+    it 'doesn\'t compile components' do
+      get '/some_component.js'
+      expect(last_response).to be_ok
+      expect(last_response.body.strip).to eq(component_specimen)
+    end
   end
 end
