@@ -42,7 +42,7 @@ class Embork::Server
   end
 
   def setup_bundled_mode
-    @project_root = File.join @borkfile.project_root, 'build', @bundle_version
+    @project_root = File.join @borkfile.project_root, 'build', Embork.env.to_s
 
     set_backend
 
