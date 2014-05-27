@@ -93,18 +93,15 @@ class Embork::Borkfile
   end
 
   def set_options(file)
+    # Setup paths
     default_paths = [
       'app',
       'config/%s' % [ @environment.to_s ],
       'components'
     ]
     @asset_paths = default_paths.concat file.asset_paths
-    @helpers = file.helpers
-    @sprockets_postprocessors = file.sprockets_postprocessors
-    @sprockets_engines = file.sprockets_engines
-    @backend = file.backend
-    @html = file.html
-    @keep_old_versions = file.keep_old_versions
+
+    # Setup root
     if file.project_root
       if file.project_root[0] == '/'
         @project_root = file.project_root
@@ -113,6 +110,11 @@ class Embork::Borkfile
       end
     else
       @project_root = File.expand_path '..', @path_to_borkfile
+    end
+
+    # Copy everything else
+    (Attributes.instance_methods - [ :asset_paths, :project_root ]).each do |attr|
+      self.instance_variable_set("@#{attr}".to_sym, file.send(attr))
     end
   end
 end
