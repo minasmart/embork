@@ -26,6 +26,10 @@ module Embork::Sprockets::Helpers
   def stylesheet_embed_tag
   end
 
+  def namespace
+    Embork::Sprockets::ES6ModuleTranspiler.namespace
+  end
+
   protected
 
   def generate_versioned_name(path_to_file)
