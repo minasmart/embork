@@ -1,6 +1,7 @@
 require 'json'
 require 'tilt'
 require 'execjs'
+require 'pathname'
 
 require 'string/strip'
 
@@ -9,6 +10,7 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
   class << self
     attr_accessor :compile_to
     attr_accessor :transform
+    attr_accessor :namespace
 
     def transpiler_path
       File.expand_path '../support/es6-module-transpiler.js', __FILE__
@@ -29,6 +31,7 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
   end
   self.compile_to = :amd
   self.default_mime_type = 'application/javascript'
+  self.namespace = nil
 
   def prepare
     # Required to be implemented by Tilt for some reason...
@@ -60,9 +63,16 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
 
   def module_name
     if self.class.transform
-      self.class.transform.call @logical_path
+      name = self.class.transform.call @logical_path
     else
-      @logical_path
+      name = @logical_path
+    end
+
+    # Attach the namespace
+    if !self.class.namespace.nil?
+      "%s/%s" % [ self.class.namespace.to_s, name ]
+    else
+      name
     end
   end
 

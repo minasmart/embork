@@ -48,4 +48,8 @@ describe 'Embork::Environment' do
     expect(environment.sprockets_environment.cache.class).to eq(Embork::Environment::ErblessCache)
   end
 
+  it 'sets up a namespace on the es6 processor' do
+    expect(Embork::Sprockets::ES6ModuleTranspiler.namespace).to eq('my-package')
+  end
+
 end

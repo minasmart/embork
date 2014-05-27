@@ -38,6 +38,10 @@ describe 'Embork::Borkfile' do
     it 'keeps five old versions' do
       expect(borkfile.keep_old_versions).to eq(5)
     end
+
+    it 'has no es6 module namespace defined' do
+      expect(borkfile.es6_namespace).to eq(nil)
+    end
   end
 
   describe 'basic config' do
@@ -85,6 +89,10 @@ describe 'Embork::Borkfile' do
 
     it 'keeps the specified number of old versions' do
       expect(borkfile.keep_old_versions).to eq(10)
+    end
+
+    it 'sets up an es6 module namespace' do
+      expect(borkfile.es6_namespace).to eq('my-package')
     end
   end
 
