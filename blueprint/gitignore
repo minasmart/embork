@@ -1,0 +1,17 @@
+# Compiled output
+build
+.cache
+.sass-cache
+
+# Ruby stuff
+.bundle
+Gemfile.lock
+
+# Dependencies
+node_modules
+components
+
+# Misc
+.DS_Store
+Thumbs.db
+npm-debug.log

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= namespace %></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%%= stylesheet_link_tag 'application.css' %>
+  </head>
+  <body>
+    <%%= javascript_include_tag 'application.js' %>
+    <script>
+      window.App = require('<%= namespace %>/app')['default'].create(
+        Ember.merge(window.ENV, { environment: "<%%= Embork.env %>" }));
+    </script>
+  </body>
+</html>

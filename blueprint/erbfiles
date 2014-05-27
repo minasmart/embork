@@ -1,0 +1,4 @@
+app/app.js
+app/index.html.erb
+bower.json
+Borkfile

@@ -18,3 +18,5 @@ tmp
 spec/embork/example_app/.cache
 spec/embork/builder/build
 spec/embork/builder/.cache
+blueprint/components
+blueprint/node_modules
