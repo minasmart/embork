@@ -17,6 +17,11 @@ class EmborkCLI < Thor
     Embork::Generator.new(package_name, options).generate
   end
 
+  desc "server [ENVIRONMENT]", %{run the development or production server}
+  option :port, :type => :numeric, :default => 9292
+  option :bind, :type => :string, :default => 'localhost'
+  def server(environment = :development)
+  end
 end
 
 EmborkCLI.start(ARGV)
