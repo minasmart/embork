@@ -1,5 +1,5 @@
 require 'embork'
-require 'embork/sprockets/es6_module_transpiler'
+require 'embork/sprockets'
 
 class Embork::Borkfile
   module Attributes

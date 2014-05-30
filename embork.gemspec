@@ -34,5 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rb-fsevent'
   spec.add_development_dependency 'pry', '0.9.12.2'
+  spec.add_development_dependency 'colorize'
 
 end

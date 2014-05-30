@@ -1,4 +1,5 @@
 app/app.js
 app/index.html.erb
 bower.json
+package.json
 Borkfile

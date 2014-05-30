@@ -8,8 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/<%= name %>.css">
     <link rel="stylesheet" href="assets/qunit.css">
     <style>
       #ember-testing-container {
@@ -36,11 +34,11 @@
       window.ENV = {{ENV}};
     </script>
     <script src="assets/qunit.js"></script>
-    <script src="assets/<%= name %>.js"></script>
-    <script src="testem.js"></script>
+    <script src="assets/application.js"></script>
+    <script src="assets/tests.js"></script>
     <script>
-      require('<%= modulePrefix %>/tests/test-helper');
-      require('<%= modulePrefix %>/tests/test-loader');
+      require('<%= namespace %>/tests/test-helper');
+      require('<%= namespace %>/tests/test-loader');
     </script>
   </body>
 </html>
