@@ -97,7 +97,7 @@ describe 'Embork::Server' do
   end
 
   context 'bundled assets' do
-    let(:server) { Embork::Server.new borkfile, :use_asset_bundle_version => '12345' }
+    let(:server) { Embork::Server.new borkfile, :bundle_version => '12345' }
     let(:app) { server.app }
 
     it 'serves out bundled assets' do
@@ -127,7 +127,7 @@ describe 'Embork::Server' do
 
   context 'bundled assets and rack backend' do
     let(:rack_backed_borkfile) { b = borkfile.dup; b.instance_eval { @backend = MyRackBackend }; b }
-    let(:server) { Embork::Server.new rack_backed_borkfile, :use_asset_bundle_version => '12345' }
+    let(:server) { Embork::Server.new rack_backed_borkfile, :bundle_version => '12345' }
     let(:app) { server.app }
 
     it 'serves out bundled assets' do

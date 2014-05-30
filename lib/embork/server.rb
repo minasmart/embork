@@ -13,8 +13,8 @@ class Embork::Server
 
   def initialize(borkfile, options = {})
     @borkfile = borkfile
-    if options.has_key? :use_asset_bundle_version
-      @bundle_version = options[:use_asset_bundle_version]
+    if options.has_key? :bundle_version
+      @bundle_version = options[:bundle_version]
       setup_bundled_mode
     else
       setup_dev_mode
