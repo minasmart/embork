@@ -1,4 +1,4 @@
-define("my_hbs_template",
+define("my-package/my_hbs_template",
   ["exports"],
   function(__exports__) {
 

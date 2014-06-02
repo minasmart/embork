@@ -1,4 +1,4 @@
-window.require.define({"my_hbs_template": function(exports, require, module) {
+window.require.define({"my-package/my_hbs_template": function(exports, require, module) {
 
 "use strict";
 var template = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {

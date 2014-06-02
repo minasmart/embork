@@ -1,4 +1,9 @@
-Ember.TEMPLATES['hbs_template'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+define("my-package/hbs_template",
+  ["exports"],
+  function(__exports__) {
+
+"use strict";
+var template = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', stack1, escapeExpression=this.escapeExpression;
@@ -14,4 +19,8 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(" />\n</p>\n");
   return buffer;
   
+});
+
+__exports__["default"] = template;
+
 });

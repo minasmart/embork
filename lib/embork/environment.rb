@@ -24,6 +24,7 @@ class Embork::Environment
 
     if !@borkfile.es6_namespace.nil?
       Embork::Sprockets::ES6ModuleTranspiler.namespace = @borkfile.es6_namespace
+      Embork::Sprockets::EmberHandlebarsCompiler.namespace = @borkfile.es6_namespace
     end
   end
 
