@@ -43,7 +43,7 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
     @context = @environment.context_class.new(@environment, @logical_path, scope.pathname)
 
     # If this is a manifest, don't compile it
-    if manifest? || component?
+    if manifest? || component? || template?
       data
     else
       wrap_in_closure(self.class.runtime.exec module_generator)
@@ -66,6 +66,11 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
 
   def component?
     !!path_relative_to_root.to_s.match(/^components/)
+  end
+
+  def template?
+    puts @logical_path
+    !!@logical_path.match(/^templates/)
   end
 
   def wrap_in_closure(compiled_code)
