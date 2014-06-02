@@ -8,7 +8,7 @@ describe 'Embork::Sprockets::ES6ModuleTranspiler' do
   let(:sprockets_environment) { Sprockets::Environment.new root_path }
   let(:app) do
     s = sprockets_environment
-    s.register_preprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
+    s.register_postprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
     s.append_path 'app'
     s.append_path 'components'
     s.append_path 'config'

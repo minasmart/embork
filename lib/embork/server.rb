@@ -19,6 +19,8 @@ class Embork::Server
     else
       setup_dev_mode
     end
+    @port = options[:port]
+    @host = options[:host]
   end
 
   def setup_dev_mode
@@ -64,6 +66,10 @@ class Embork::Server
       Embork::Forwarder.target = @borkfile.backend
       @backend = Embork::Forwarder
     end
+  end
+
+  def run
+    Rack::Handler::WEBrick.run @app, :Port => @port, :Host => @host
   end
 
 end

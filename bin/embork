@@ -19,8 +19,12 @@ class EmborkCLI < Thor
 
   desc "server [ENVIRONMENT]", %{run the development or production server}
   option :port, :type => :numeric, :default => 9292
-  option :bind, :type => :string, :default => 'localhost'
+  option :host, :type => :string, :default => 'localhost'
+  option :bundle_version, :type => :string, :default => nil
+  option :with_latest_bundle, :type => :boolean, :default => false
   def server(environment = :development)
+    borkfile = Embork::Borkfile.new options[:borkfile]
+    Embork::Server.new(borkfile, options).run
   end
 end
 

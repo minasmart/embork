@@ -41,7 +41,7 @@ class Embork::Environment
   end
 
   def setup_sprockets_defaults
-    @sprockets_environment.register_preprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
+    @sprockets_environment.register_postprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
     @sprockets_environment.register_engine '.hbs', Embork::Sprockets::EmberHandlebarsCompiler
     @sprockets_environment.register_engine '.handlebars', Embork::Sprockets::EmberHandlebarsCompiler
   end

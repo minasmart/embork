@@ -1,5 +1,6 @@
 require 'embork'
 require 'embork/sprockets'
+require 'embork/logger'
 
 class Embork::Borkfile
   module Attributes
@@ -85,11 +86,22 @@ class Embork::Borkfile
   include Attributes
 
   def initialize(path_to_borkfile, environment = :development)
+    @logger = Embork::Logger.new(STDOUT, :simple)
     @path_to_borkfile = path_to_borkfile
     @environment = environment.to_sym
+    check_borkfile
     file = DSL.new(environment)
     file.get_binding.eval File.read(@path_to_borkfile)
     set_options file
+  end
+
+  protected
+
+  def check_borkfile
+    unless File.exists? @path_to_borkfile
+      @logger.error 'No Borkfile found at %s.' % @path_to_borkfile
+      exit 1
+    end
   end
 
   def set_options(file)
