@@ -6,9 +6,9 @@ require 'pry'
 
 
 describe 'Embork::Sprockets::EmberHandlebarsCompiler' do
+  before(:all) { Embork::Sprockets::EmberHandlebarsCompiler.namespace = 'my-package' }
+  after(:all) { Embork::Sprockets::EmberHandlebarsCompiler.namespace = nil }
   let(:root_path) { File.expand_path('../ember_handlebars_compiler', __FILE__) }
-  let(:global_hbs_specimen) { File.read(File.join(root_path, 'global_hbs_template.js')).strip }
-  let(:global_handlebars_specimen) { File.read(File.join(root_path, 'global_handlebars_template.js')).strip }
 
   let(:app) do
     s = Sprockets::Environment.new root_path
@@ -20,21 +20,28 @@ describe 'Embork::Sprockets::EmberHandlebarsCompiler' do
     end
   end
 
-  it 'compiles handlebars source to ember handlebars' do
-    get '/my_handlebars_template.js'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eq(global_handlebars_specimen)
-  end
+  context 'Globals' do
+    before(:all) { Embork::Sprockets::EmberHandlebarsCompiler.compile_to = :globals }
+    after(:all) { Embork::Sprockets::EmberHandlebarsCompiler.compile_to = :amd }
 
-  it 'compiles hbs source to ember handlebars' do
-    get '/my_hbs_template.js'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eq(global_hbs_specimen)
+    let(:global_hbs_specimen) { File.read(File.join(root_path, 'global_hbs_template.js')).strip }
+    let(:global_handlebars_specimen) { File.read(File.join(root_path, 'global_handlebars_template.js')).strip }
+    it 'compiles handlebars source to ember handlebars' do
+      get '/my_handlebars_template.js'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(global_handlebars_specimen)
+    end
+
+    it 'compiles hbs source to ember handlebars' do
+      get '/my_hbs_template.js'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq(global_hbs_specimen)
+    end
   end
 
   context 'CommonJS' do
     before(:all) { Embork::Sprockets::EmberHandlebarsCompiler.compile_to = :cjs }
-    after(:all) { Embork::Sprockets::EmberHandlebarsCompiler.compile_to = :globals }
+    after(:all) { Embork::Sprockets::EmberHandlebarsCompiler.compile_to = :amd }
 
     let(:cjs_specimen) { File.read(File.join(root_path, 'cjs_template.js')).strip }
 
@@ -46,9 +53,6 @@ describe 'Embork::Sprockets::EmberHandlebarsCompiler' do
   end
 
   context 'AMD' do
-    before(:all) { Embork::Sprockets::EmberHandlebarsCompiler.compile_to = :amd }
-    after(:all) { Embork::Sprockets::EmberHandlebarsCompiler.compile_to = :globals }
-
     let(:amd_specimen) { File.read(File.join(root_path, 'amd_template.js')).strip }
 
     it 'compiles hbs source to ember handlebars' do

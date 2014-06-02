@@ -7,6 +7,7 @@ class Embork::Sprockets::EmberHandlebarsCompiler < Tilt::Template
   class << self
     attr_accessor :compile_to
     attr_accessor :transform
+    attr_accessor :namespace
 
     CJS_closure = <<-CJS.strip_heredoc
       window.require.define({"%s": function(exports, require, module) {
@@ -40,8 +41,9 @@ class Embork::Sprockets::EmberHandlebarsCompiler < Tilt::Template
       }[target]
     end
   end
+  self.namespace = nil
   self.default_mime_type = 'application/javascript'
-  self.compile_to = :globals
+  self.compile_to = :amd
 
   def prepare
     # Required to be implemented by Tilt for some reason...
@@ -57,9 +59,16 @@ class Embork::Sprockets::EmberHandlebarsCompiler < Tilt::Template
 
   def module_name
     if self.class.transform
-      self.class.transform.call @logical_path
+      name = self.class.transform.call @logical_path
     else
-      @logical_path
+      name = @logical_path
+    end
+
+    # Attach the namespace
+    if !self.class.namespace.nil?
+      "%s/%s" % [ self.class.namespace.to_s, name ]
+    else
+      name
     end
   end
 
