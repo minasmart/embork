@@ -1,10 +1,13 @@
+require 'rack'
+
 require 'embork/environment'
 require 'embork/pushstate'
 require 'embork/forwarder'
-
-require 'rack'
+require 'embork/build_versions'
 
 class Embork::Server
+  include Embork::BuildVersions
+
   attr_reader :backend
   attr_reader :project_root
   attr_reader :sprockets_environment
@@ -13,9 +16,11 @@ class Embork::Server
 
   def initialize(borkfile, options = {})
     @borkfile = borkfile
-    if options.has_key? :bundle_version
+    if options.has_key?(:bundle_version) && !options[:bundle_version].nil?
       @bundle_version = options[:bundle_version]
       setup_bundled_mode
+    elsif options.has_key?(:with_latest_bundle) && !!options[:with_latest_bundle]
+      @asset_bundle_version = sorted_versions(@borkfile.project_root).first
     else
       setup_dev_mode
     end

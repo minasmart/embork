@@ -4,8 +4,11 @@ require 'find'
 require 'sprockets'
 
 require 'embork/environment'
+require 'embork/build_versions'
 
 class Embork::Builder
+  include Embork::BuildVersions
+
   def initialize(borkfile)
     @borkfile = borkfile
     @project_root = @borkfile.project_root
@@ -20,7 +23,7 @@ class Embork::Builder
     @sprockets_environment.context_class.use_bundled_assets = true
     @sprockets_environment.context_class.bundled_version = @version
 
-    Dir.chdir @borkfile.project_root do
+    Dir.chdir @project_root do
       config_path = File.join 'config', Embork.env.to_s
       build_path = File.join 'build', Embork.env.to_s
 
@@ -88,29 +91,20 @@ class Embork::Builder
   end
 
   def clean
-    build_path = File.join(@borkfile.project_root, 'build', Embork.env.to_s)
-    version_format = /\d{4}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{4}/
-
-    date_codes = []
-    Find.find(build_path) do |file|
-      m = File.basename(file).match version_format
-      date_codes.push m[0] unless m.nil?
-    end
-
-    # Tidy up!
-    date_codes.uniq!.sort!.reverse!
+    versions = sorted_versions @project_root
 
     # If there are more than our threshold
-    if date_codes.length > @borkfile.keep_old_versions
+    if versions.length > @borkfile.keep_old_versions
 
       # Grab the versions to keep
-      retained_versions = date_codes[0...@borkfile.keep_old_versions]
+      retained_versions = versions[0...@borkfile.keep_old_versions]
+      build_path = File.join(@project_root, 'build', Embork.env.to_s)
 
       Find.find(build_path) do |file|
         name = File.basename(file)
 
         # Skip if this is an unversioned file
-        next unless name.match version_format
+        next unless version_name(file)
 
         # If any version strings that we should retain are in the file name,
         # skip to next. Otherwise, obliterate.
@@ -125,7 +119,7 @@ class Embork::Builder
   end
 
   def clean!
-    FileUtils.rm_rf File.join(@borkfile.project_root, 'build', Embork.env.to_s)
+    FileUtils.rm_rf File.join(@project_root, 'build', Embork.env.to_s)
   end
 
   protected
