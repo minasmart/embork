@@ -1,8 +1,8 @@
-import Resolver from 'embork/resolver';
+import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 
 var App = Ember.Application.extend({
-  namespace: "<%= namespace %>",
+  modulePrefix: "<%= namespace %>",
   Resolver: Resolver
 });
 
