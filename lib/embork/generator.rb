@@ -50,10 +50,13 @@ class Embork::Generator
     move_dot_files
     install_npm_deps
     install_bower_deps
+    bundle
+    init_git
     print_success
   end
 
   protected
+
   attr_reader :logger
 
   def check_for_npm
@@ -105,21 +108,40 @@ class Embork::Generator
   def install_npm_deps
     logger.info 'Fetching npm dependencies.'
     command = 'npm install'
-    out = status = nil
-    Dir.chdir project_path do
-      out = ''
-      status = Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
-        stdin.close
-        out = stdout.read + stderr.read
-        wait_thr.value
-      end
-    end
+    status, out = run_in_project_dir command
     print_error(command, out) unless status.success?
   end
 
   def install_bower_deps
     logger.info 'Fetching bower dependencies.'
     command = 'npm run bower-deps'
+    status, out = run_in_project_dir command
+    print_error(command, out) unless status.success?
+  end
+
+  def bundle
+    logger.info 'Bundling app.'
+    command = 'bundle install'
+    # Clean up bundler before running bundle
+    bundle_vars = %w(BUNDLE_GEMFILE RUBYOPT BUNDLE_BIN_PATH)
+    bundled_env = ENV.to_hash
+    bundle_vars.each{ |var| ENV.delete var }
+
+    # Run bundle
+    status, out = run_in_project_dir command
+
+    # Restor bundler
+    ENV.replace bundled_env
+    print_error(command, out) unless status.success?
+  end
+
+  def init_git
+    command = 'git init'
+    status, out = run_in_project_dir command
+    print_error(command, out) unless status.success?
+  end
+
+  def run_in_project_dir(command)
     out = status = nil
     Dir.chdir project_path do
       out = ''
@@ -129,7 +151,7 @@ class Embork::Generator
         wait_thr.value
       end
     end
-    print_error(command, out) unless status.success?
+    [ status, out ]
   end
 
   def print_error(command, trace)

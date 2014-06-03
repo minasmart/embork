@@ -52,11 +52,13 @@ describe 'Embork::Generator' do
       Dir.chdir project_dir do
         files = [ '.',
                   '..',
+                  '.git',
                   '.bowerrc',
                   '.gitignore',
                   '.jshintrc',
                   'Borkfile',
                   'Gemfile',
+                  'Gemfile.lock',
                   'README.md',
                   'app',
                   'bower.json',
