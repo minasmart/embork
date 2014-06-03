@@ -8,8 +8,9 @@ TODO
 - [x] Create full blown example project.
 - [x] Create blank Borkfile with all options presented and probably commented out.
 - [x] Make module transpiler ignore components
-- [ ] Create cli to run server.
-- [ ] Build workable resolver for commonjs and require.js
-- [ ] Extend cli with clean, build, and new tasks
-- [ ] Get qunit test runner built in
-- [ ] Get prerender tool built in.
+- [x] Create cli to run server.
+- [x] Add jj-abrams resolver
+- [ ] Extend cli with clean, and hint
+- [ ] add hint task
+- [ ] build in qunit-runner
+- [ ] build in prerender
