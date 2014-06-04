@@ -9,6 +9,7 @@
   },
   "scripts": {
     "bower-deps": "bower install",
-    "hint": "jshint app"
+    "hint-app": "jshint app; true",
+    "hint-tests": "jshint tests; true"
   }
 }
