@@ -69,7 +69,6 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
   end
 
   def template?
-    puts @logical_path
     !!@logical_path.match(/^templates/)
   end
 
