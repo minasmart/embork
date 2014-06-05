@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'sass'
   spec.add_runtime_dependency 'execjs'
   spec.add_runtime_dependency 'barber'
+  spec.add_runtime_dependency 'colorize'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rspec', '~> 3.0.0.beta1'
@@ -34,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rb-fsevent'
   spec.add_development_dependency 'pry', '0.9.12.2'
-  spec.add_development_dependency 'colorize'
   spec.add_development_dependency 'compass'
   spec.add_development_dependency 'bootstrap-sass'
 
