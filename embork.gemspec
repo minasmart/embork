@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'thor', '~> 0.19.1'
   spec.add_runtime_dependency 'rack'
   spec.add_runtime_dependency 'coffee-script'
-  spec.add_runtime_dependency 'sass'
+  spec.add_runtime_dependency 'sass', '~> 3.2.0'
   spec.add_runtime_dependency 'execjs'
   spec.add_runtime_dependency 'barber'
   spec.add_runtime_dependency 'colorize'
