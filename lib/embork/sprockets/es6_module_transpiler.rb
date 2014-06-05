@@ -34,7 +34,7 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
   self.namespace = nil
 
   def prepare
-    # Required to be implemented by Tilt for some reason...
+    @logger = Embork::Logger.new(STDOUT, :simple)
   end
 
   def evaluate(scope, locals, &block)
@@ -46,7 +46,11 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
     if manifest? || component? || template?
       data
     else
-      wrap_in_closure(self.class.runtime.exec module_generator)
+      begin
+        wrap_in_closure(self.class.runtime.exec module_generator)
+      rescue Error
+        @logger.fatal 'ES6 Module error in file %s' % logical_path
+      end
     end
   end
 
