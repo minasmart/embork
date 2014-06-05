@@ -48,7 +48,7 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
     else
       begin
         wrap_in_closure(self.class.runtime.exec module_generator)
-      rescue Error
+      rescue
         @logger.fatal 'ES6 Module error in file %s' % logical_path
       end
     end
