@@ -14,6 +14,12 @@ set_project_root '.'
 #   register_postprocessor 'application/javascript', SomeClass
 #   register_engine '.some-ext, SomeEngine
 
+# Add frameworks. Currently only compass and bootstrap (bootstrap-sass) are
+# supported. First add either to your Gemfile and bundle.
+#
+#   use_framework :compass
+#   use_framework :bootstrap
+
 add_sprockets_helpers do
 end
 

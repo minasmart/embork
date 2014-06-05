@@ -1,3 +1,13 @@
 source 'https://rubygems.org'
 
 gem 'embork'
+
+# To include compass, include the gem, and use the 'use_framework' DSL in the
+# Borkfile.
+#
+# gem 'compass'
+
+# To include bootstrap, include the gem, and use the 'use_framework' DSL in the
+# Borkfile.
+#
+# gem 'bootstrap-sass'
