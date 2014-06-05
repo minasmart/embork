@@ -4,7 +4,7 @@ module Embork::Sprockets::Frameworks
       require 'compass'
       sprockets_environment.append_path Compass::Frameworks['compass'].stylesheets_directory
     rescue LoadError => e
-      (@logger ||= Embork::Logger.new(STDOUT)).error 'Compass gem is not installed.'
+      (@logger ||= Embork::Logger.new(STDOUT, :simple)).error 'Compass gem is not installed.'
       @logger.info %{Add `gem 'compass'` to your Gemfile and run `bundle` to install it.}
       exit 1
     end
