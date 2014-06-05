@@ -24,7 +24,8 @@ describe 'Embork::Environment' do
     :sprockets_engines => [
       { :extension => '.bork', :klass => my_engine }
     ],
-    :es6_namespace => 'my-package'
+    :es6_namespace => 'my-package',
+    :frameworks => [ 'bootstrap', 'compass' ]
   })}
 
   let (:environment) { Embork::Environment.new borkfile }
@@ -64,6 +65,14 @@ describe 'Embork::Environment' do
 
   it 'sets up a namespace on the es6 processor' do
     expect(Embork::Sprockets::ES6ModuleTranspiler.namespace).to eq('my-package')
+  end
+
+  it 'adds compass to the asset path' do
+    expect(environment.sprockets_environment.paths.to_s).to match /\/compass-.*?\/frameworks\/compass\/stylesheets/
+  end
+
+  it 'adds bootstrap to the asset path' do
+    expect(environment.sprockets_environment.paths.to_s).to match /\/bootstrap-sass-.*?\/vendor\/assets\/stylesheets/
   end
 
 end

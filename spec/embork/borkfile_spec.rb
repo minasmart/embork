@@ -94,6 +94,11 @@ describe 'Embork::Borkfile' do
     it 'sets up an es6 module namespace' do
       expect(borkfile.es6_namespace).to eq('my-package')
     end
+
+    it 'includes frameworks' do
+      expect(borkfile.frameworks).to include 'bootstrap'
+      expect(borkfile.frameworks).not_to include 'compass'
+    end
   end
 
   describe 'relative root' do

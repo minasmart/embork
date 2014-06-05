@@ -12,6 +12,7 @@ class Embork::Borkfile
     attr_reader :sprockets_engines
     attr_reader :backend
     attr_reader :html
+    attr_reader :frameworks
 
     def keep_old_versions(number_to_keep = nil)
       @keep_old_versions = number_to_keep || @keep_old_versions
@@ -25,7 +26,9 @@ class Embork::Borkfile
   class DSL
     include Attributes
 
-    def initialize(environment)
+    SUPPORTED_FRAMEWORKS = %w(bootstrap compass)
+
+    def initialize(environment, logger)
       Embork.env = @environment = environment
       @asset_paths = []
       @helpers = []
@@ -37,6 +40,19 @@ class Embork::Borkfile
       @backend = :static_index
       @keep_old_versions = 5
       @es6_namespace = nil
+      @frameworks = []
+      @logger = logger
+    end
+
+    def use_framework(framework)
+      framework = framework.to_s
+      if SUPPORTED_FRAMEWORKS.include? framework.to_s
+        @frameworks.push framework
+      else
+        @logger.critical 'Framework "%s" is not currently supported by embork.' % framework
+        @logger.unknown ''
+        exit 1
+      end
     end
 
     def register_postprocessor(mime_type, klass)
@@ -90,7 +106,7 @@ class Embork::Borkfile
     @path_to_borkfile = path_to_borkfile
     @environment = environment.to_sym
     check_borkfile
-    file = DSL.new(environment)
+    file = DSL.new(environment, @logger)
     file.get_binding.eval File.read(@path_to_borkfile)
     set_options file
   end
