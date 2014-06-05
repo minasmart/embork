@@ -2,6 +2,8 @@ require 'embork/sprockets'
 require 'sprockets'
 
 class Embork::Environment
+  include Embork::Sprockets::Frameworks
+
   attr_reader :sprockets_environment
   attr_reader :bundle_version
   attr_reader :use_bundled_assets
@@ -39,6 +41,7 @@ class Embork::Environment
     setup_helpers
     setup_processors
     setup_engines
+    setup_frameworks
   end
 
   def setup_sprockets_defaults
@@ -78,4 +81,10 @@ class Embork::Environment
     end
   end
 
+  def setup_frameworks
+    @borkfile.frameworks.each do |framework|
+      method = ('load_%s_framework' % framework).to_sym
+      self.send method, @sprockets_environment
+    end
+  end
 end

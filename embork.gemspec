@@ -35,5 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rb-fsevent'
   spec.add_development_dependency 'pry', '0.9.12.2'
   spec.add_development_dependency 'colorize'
+  spec.add_development_dependency 'compass'
+  spec.add_development_dependency 'bootstrap-sass'
 
 end
