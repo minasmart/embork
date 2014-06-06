@@ -31,7 +31,7 @@ class Embork::Borkfile
     SUPPORTED_COMPRESSORS = %w(closure_compiler uglifier)
 
     def initialize(environment, logger)
-      Embork.env = @environment = environment
+      Embork.env = @environment = environment.to_sym
       @asset_paths = []
       @helpers = []
       @sprockets_postprocessors = []
