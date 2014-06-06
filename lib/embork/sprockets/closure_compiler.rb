@@ -18,7 +18,7 @@ class Embork::Sprockets::ClosureCompiler < Tilt::Template
 
   def evaluate(scope, locals, &block)
     @logger.info 'Compressing %s.js with the closure compiler' % scope.logical_path
-    self.compiler.compile data
+    self.class.compiler.compile data
   end
 
 end
