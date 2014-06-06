@@ -1,5 +1,6 @@
 require 'embork/sprockets'
 require 'sprockets'
+require 'tilt'
 
 class Embork::Environment
   include Embork::Sprockets::Frameworks
@@ -48,6 +49,7 @@ class Embork::Environment
     @sprockets_environment.register_postprocessor 'application/javascript', Embork::Sprockets::ES6ModuleTranspiler
     @sprockets_environment.register_engine '.hbs', Embork::Sprockets::EmberHandlebarsCompiler
     @sprockets_environment.register_engine '.handlebars', Embork::Sprockets::EmberHandlebarsCompiler
+    ::Tilt::CoffeeScriptTemplate.default_bare = true
   end
 
   def setup_paths
