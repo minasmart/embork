@@ -43,6 +43,7 @@ class Embork::Environment
     setup_processors
     setup_engines
     setup_frameworks
+    setup_compressor if @borkfile.compressor
   end
 
   def setup_sprockets_defaults
@@ -87,6 +88,13 @@ class Embork::Environment
     @borkfile.frameworks.each do |framework|
       method = ('load_%s_framework' % framework).to_sym
       self.send method, @sprockets_environment
+    end
+  end
+
+  def setup_compressor
+    if @borkfile.compressor == :closure_compiler
+      @sprockets_environment.register_bundle_processor 'application/javascript',
+        Embork::Sprockets::ClosureCompiler
     end
   end
 end

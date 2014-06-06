@@ -42,6 +42,10 @@ describe 'Embork::Borkfile' do
     it 'has no es6 module namespace defined' do
       expect(borkfile.es6_namespace).to eq(nil)
     end
+
+    it 'has no default compressor' do
+      expect(borkfile.compressor).to eq(nil)
+    end
   end
 
   describe 'basic config' do
@@ -98,6 +102,10 @@ describe 'Embork::Borkfile' do
     it 'includes frameworks' do
       expect(borkfile.frameworks).to include 'bootstrap'
       expect(borkfile.frameworks).not_to include 'compass'
+    end
+
+    it 'configures the closure_compiler as the compressor' do
+      expect(borkfile.compressor).to eq(:closure_compiler)
     end
   end
 

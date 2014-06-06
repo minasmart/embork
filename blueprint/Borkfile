@@ -34,6 +34,8 @@ configure :development do
 end
 
 configure :production do
+  # To compress with the closure compiler
+  # compress_with :closure_compiler
 end
 
 # Use :static index to fall back to sprockets-built html files OR pass in

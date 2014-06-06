@@ -25,7 +25,8 @@ describe 'Embork::Environment' do
       { :extension => '.bork', :klass => my_engine }
     ],
     :es6_namespace => 'my-package',
-    :frameworks => [ 'bootstrap', 'compass' ]
+    :frameworks => [ 'bootstrap', 'compass' ],
+    :compressor => :closure_compiler
   })}
 
   let (:environment) { Embork::Environment.new borkfile }
@@ -73,6 +74,10 @@ describe 'Embork::Environment' do
 
   it 'adds bootstrap to the asset path' do
     expect(environment.sprockets_environment.paths.to_s).to match /\/bootstrap-sass-.*?\/vendor\/assets\/stylesheets/
+  end
+
+  it 'adds the Embork::Sprockets::ClosureCompiler as a bundle processor' do
+    expect(environment.sprockets_environment.bundle_processors('application/javascript')).to include(Embork::Sprockets::ClosureCompiler)
   end
 
 end

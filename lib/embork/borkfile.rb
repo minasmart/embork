@@ -13,6 +13,7 @@ class Embork::Borkfile
     attr_reader :backend
     attr_reader :html
     attr_reader :frameworks
+    attr_reader :compressor
 
     def keep_old_versions(number_to_keep = nil)
       @keep_old_versions = number_to_keep || @keep_old_versions
@@ -27,6 +28,7 @@ class Embork::Borkfile
     include Attributes
 
     SUPPORTED_FRAMEWORKS = %w(bootstrap compass)
+    SUPPORTED_COMPRESSORS = %w(closure_compiler)
 
     def initialize(environment, logger)
       Embork.env = @environment = environment
@@ -42,11 +44,12 @@ class Embork::Borkfile
       @es6_namespace = nil
       @frameworks = []
       @logger = logger
+      @compressor = nil
     end
 
     def use_framework(framework)
       framework = framework.to_s
-      if SUPPORTED_FRAMEWORKS.include? framework.to_s
+      if SUPPORTED_FRAMEWORKS.include? framework
         @frameworks.push framework
       else
         @logger.critical 'Framework "%s" is not currently supported by embork.' % framework
@@ -96,6 +99,17 @@ class Embork::Borkfile
     def compile_html(files)
       files = [ files ] unless files.kind_of? Array
       @html.concat files
+    end
+
+    def compress_with(compressor)
+      if SUPPORTED_COMPRESSORS.include? compressor.to_s
+        @compressor = compressor
+      else
+        @logger.critical 'Compressor "%s" is not currently supported by embork.' % compressor.to_s
+        @logger.unknown ''
+        exit 1
+      end
+
     end
   end
 

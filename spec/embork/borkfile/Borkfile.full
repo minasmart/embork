@@ -24,6 +24,7 @@ use_framework :bootstrap
 configure :development do
   append_asset_path 'foo/dev/js'
   compile_html 'dev.html'
+  compress_with :closure_compiler
 end
 
 configure :production do

@@ -11,3 +11,8 @@ gem 'embork'
 # Borkfile.
 #
 # gem 'bootstrap-sass'
+
+# Include the closure-compiler gem if you're using the google closure compiler
+# for javascript compression
+#
+# gem 'closure-compiler'
