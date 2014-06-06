@@ -95,6 +95,8 @@ class Embork::Environment
     if @borkfile.compressor == :closure_compiler
       @sprockets_environment.register_bundle_processor 'application/javascript',
         Embork::Sprockets::ClosureCompiler
+    elsif @borkfile.compressor == :uglifier
+      @sprockets_environment.js_compressor = :uglify
     end
   end
 end

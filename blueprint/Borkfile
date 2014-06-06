@@ -34,8 +34,11 @@ configure :development do
 end
 
 configure :production do
-  # To compress with the closure compiler
+  # Enable a javascript compressor. Whichever you enable, include the
+  # corresponding gem in the Gemfile.
+  #
   # compress_with :closure_compiler
+  # compress_with :uglifier
 end
 
 # Use :static index to fall back to sprockets-built html files OR pass in

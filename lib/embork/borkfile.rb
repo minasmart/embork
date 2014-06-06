@@ -28,7 +28,7 @@ class Embork::Borkfile
     include Attributes
 
     SUPPORTED_FRAMEWORKS = %w(bootstrap compass)
-    SUPPORTED_COMPRESSORS = %w(closure_compiler)
+    SUPPORTED_COMPRESSORS = %w(closure_compiler uglifier)
 
     def initialize(environment, logger)
       Embork.env = @environment = environment

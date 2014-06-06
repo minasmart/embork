@@ -12,7 +12,7 @@ gem 'embork'
 #
 # gem 'bootstrap-sass'
 
-# Include the closure-compiler gem if you're using the google closure compiler
-# for javascript compression
+# Include the closure-compiler or uglifier gem to use either javascript
+# compressor. They both have to be enabled through your Borkfile.
 #
 # gem 'closure-compiler'
