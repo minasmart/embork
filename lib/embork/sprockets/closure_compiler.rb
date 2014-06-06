@@ -12,7 +12,7 @@ class Embork::Sprockets::ClosureCompiler < Tilt::Template
   def self.compiler
     @compiler ||= Closure::Compiler.new(
       :jar_file => File.expand_path('../support/closure_compiler.jar', __FILE__),
-      :compilation_level => 'SIMPLE_OPTIMIZATIONS'
+      :compilation_level => 'SIMPLE'
     )
   end
 
