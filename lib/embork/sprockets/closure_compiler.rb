@@ -1,5 +1,4 @@
 require 'tilt'
-require 'closure-compiler'
 require 'embork/logger'
 
 class Embork::Sprockets::ClosureCompiler < Tilt::Template
@@ -10,6 +9,7 @@ class Embork::Sprockets::ClosureCompiler < Tilt::Template
   end
 
   def self.compiler
+    require 'closure-compiler'
     @compiler ||= Closure::Compiler.new(
       :jar_file => File.expand_path('../support/closure_compiler.jar', __FILE__),
       :compilation_level => 'SIMPLE'
