@@ -95,7 +95,7 @@ class Embork::Borkfile
     end
 
     def get_binding
-      return binding
+      binding
     end
 
     def compile_html(files)
