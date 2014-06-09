@@ -46,6 +46,10 @@ describe 'Embork::Borkfile' do
     it 'has no default compressor' do
       expect(borkfile.compressor).to eq(nil)
     end
+
+    it 'has no default es6 transform' do
+      expect(borkfile.es6_transform).to eq(nil)
+    end
   end
 
   describe 'basic config' do
@@ -106,6 +110,10 @@ describe 'Embork::Borkfile' do
 
     it 'configures the closure_compiler as the compressor' do
       expect(borkfile.compressor).to eq(:closure_compiler)
+    end
+
+    it 'includes the specified es6 transform' do
+      expect(borkfile.es6_transform.respond_to? :call).to eq(true)
     end
   end
 

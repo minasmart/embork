@@ -14,6 +14,7 @@ class Embork::Borkfile
     attr_reader :html
     attr_reader :frameworks
     attr_reader :compressor
+    attr_reader :es6_transform
 
     def keep_old_versions(number_to_keep = nil)
       @keep_old_versions = number_to_keep || @keep_old_versions
@@ -45,6 +46,7 @@ class Embork::Borkfile
       @frameworks = []
       @logger = logger
       @compressor = nil
+      @es6_transform = nil
     end
 
     def use_framework(framework)
@@ -109,8 +111,17 @@ class Embork::Borkfile
         @logger.unknown ''
         exit 1
       end
-
     end
+
+    def transform_es6_module_names(transform_proc)
+      if transform_proc.respond_to?(:call) || transform_proc.nil?
+        @es6_transform = transform_proc
+      else
+        @logger.critical 'ES6 Module transform must respond to #call'
+        exit 1
+      end
+    end
+
   end
 
   include Attributes

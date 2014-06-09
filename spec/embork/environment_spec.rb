@@ -26,7 +26,8 @@ describe 'Embork::Environment' do
     ],
     :es6_namespace => 'my-package',
     :frameworks => [ 'bootstrap', 'compass' ],
-    :compressor => :closure_compiler
+    :compressor => :closure_compiler,
+    :es6_transform => proc{ |name| name + 'foo' }
   })}
 
   let (:environment) { Embork::Environment.new borkfile }
@@ -78,6 +79,10 @@ describe 'Embork::Environment' do
 
   it 'adds the Embork::Sprockets::ClosureCompiler as a bundle processor' do
     expect(environment.sprockets_environment.bundle_processors('application/javascript')).to include(Embork::Sprockets::ClosureCompiler)
+  end
+
+  it 'sets up an es6 transform' do
+    expect(Embork::Sprockets::ES6ModuleTranspiler.transform.respond_to? :call).to eq(true)
   end
 
 end

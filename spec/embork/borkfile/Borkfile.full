@@ -21,6 +21,8 @@ compile_html [ 'index.html' ]
 
 use_framework :bootstrap
 
+transform_es6_module_names proc{ |name| name + 'krump' }
+
 configure :development do
   append_asset_path 'foo/dev/js'
   compile_html 'dev.html'

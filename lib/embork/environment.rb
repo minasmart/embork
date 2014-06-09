@@ -43,7 +43,12 @@ class Embork::Environment
     setup_processors
     setup_engines
     setup_frameworks
+    setup_transforms
     setup_compressor if @borkfile.compressor
+  end
+
+  def setup_transforms
+    Embork::Sprockets::ES6ModuleTranspiler.transform = @borkfile.es6_transform
   end
 
   def setup_sprockets_defaults
