@@ -149,6 +149,7 @@ class Embork::Borkfile
     # Setup paths
     default_paths = [
       'app',
+      'app/styles',
       'config/%s' % [ @environment.to_s ],
       'components'
     ]
