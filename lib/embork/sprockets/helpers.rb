@@ -5,7 +5,8 @@ module Embork::Sprockets::Helpers
   end
 
   def javascript_include_tag(path)
-    script = self.class.use_bundled_assets ? generate_versioned_name(path) : path
+    path = self.class.use_bundled_assets ? generate_versioned_name(path) : path
+    script = asset_path(path, :type => :javascript)
     %{<script src="%s"></script>} % [ script ]
   end
 
@@ -15,7 +16,8 @@ module Embork::Sprockets::Helpers
   def stylesheet_link_tag(path, options = {})
     options = { :media => :all }.merge options
 
-    stylesheet = self.class.use_bundled_assets ? generate_versioned_name(path) : path
+    path = self.class.use_bundled_assets ? generate_versioned_name(path) : path
+    stylesheet = asset_path(path, :type => :stylesheet)
 
     %{<link href="%s" rel="stylesheet" type="text/css" media="%s"></link>} % [
       stylesheet,
@@ -30,6 +32,27 @@ module Embork::Sprockets::Helpers
     Embork::Sprockets::ES6ModuleTranspiler.namespace
   end
 
+  def asset_path(path, options = {})
+    base_path = '/'
+    if !options.has_key? :type
+      File.join base_path, path
+    else
+      type = options[:type]
+      case type
+      when :image
+        File.join base_path, 'images', path
+      when :font
+        File.join base_path, 'fonts', path
+      when :javascript
+        File.join base_path, path
+      when :stylesheet
+        File.join base_path, path
+      else
+        File.join base_path, type.to_s, path
+      end
+    end
+  end
+
   protected
 
   def generate_versioned_name(path_to_file)
@@ -41,5 +64,6 @@ module Embork::Sprockets::Helpers
     versioned_name = "%s-%s%s" % [ base, self.class.bundled_version, ext ]
     (path.nil?) ? versioned_name : File.join(path, versioned_name)
   end
+
 end
 
