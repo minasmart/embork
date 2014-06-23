@@ -25,6 +25,15 @@ class EmborkCLI < Thor
     Embork::Server.new(borkfile, options).run
   end
 
+  desc "test-server [ENVIRONMENT]", %{run the qunit test server}
+  option :port, :type => :numeric, :default => 9293
+  option :host, :type => :string, :default => 'localhost'
+  def test_server(environment = :development)
+    borkfile = Embork::Borkfile.new options[:borkfile], environment
+    options[:test_mode] = true
+    Embork::Server.new(borkfile, options).run
+  end
+
   desc "build [ENVIRONMENT]", %{build the project in the 'build' directory}
   option :keep_all_old_versions, :type => :boolean, :default => false,
     :desc => %{By default, older versions of the project are removed, only keeping the last few versions. This flag keeps all old versions.}
