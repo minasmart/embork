@@ -148,9 +148,9 @@ class Embork::Borkfile
   def set_options(file)
     # Setup paths
     default_paths = [
+      'config/%s' % [ @environment.to_s ],
       'app',
       'app/styles',
-      'config/%s' % [ @environment.to_s ],
       'components'
     ]
     @asset_paths = default_paths.concat file.asset_paths
