@@ -13,14 +13,16 @@ class Embork::Server
   attr_reader :sprockets_environment
   attr_reader :app
 
-
   def initialize(borkfile, options = {})
     @borkfile = borkfile
-    if options.has_key?(:bundle_version) && !options[:bundle_version].nil?
-      @bundle_version = options[:bundle_version]
+    if !options[:bundle_version].nil?
+      Embork.bundle_version = options[:bundle_version]
       setup_bundled_mode
-    elsif options.has_key?(:with_latest_bundle) && !!options[:with_latest_bundle]
-      @asset_bundle_version = sorted_versions(@borkfile.project_root).first
+    elsif !options[:with_latest_bundle].nil?
+      Embork.bundle_version = sorted_versions(@borkfile.project_root).first
+      setup_bundled_mode
+    elsif options[:test_mode]
+      setup_test_mode
     else
       setup_dev_mode
     end
@@ -62,6 +64,11 @@ class Embork::Server
       # Should never reach here. It just need s an app to run
       run lambda { |env| [ 200, { 'Content-Type'  => 'text/html', }, '' ] }
     end
+  end
+
+  def setup_test_mode
+    setup_dev_mode
+    @sprockets_environment.prepend_path 'tests'
   end
 
   def set_backend

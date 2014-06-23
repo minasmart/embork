@@ -149,4 +149,15 @@ describe 'Embork::Server' do
     end
 
   end
+
+  context 'test mode' do
+    let(:server) { Embork::Server.new borkfile, :test_mode => true }
+    let(:app) { server.app }
+
+    it 'serves out the test index' do
+      get '/'
+      expect(last_response).to be_ok
+      expect(last_response.body.strip).to eq(%{test-index})
+    end
+  end
 end
