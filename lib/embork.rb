@@ -13,11 +13,8 @@ require "embork/server"
 require "embork/sprockets"
 
 class Embork
-  def self.env
-    @env
-  end
-
-  def self.env=(environment)
-    @env = environment
+  class << self
+    attr_accessor :env
+    attr_accessor :bundle_version
   end
 end
