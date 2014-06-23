@@ -30,8 +30,8 @@ class EmborkCLI < Thor
   option :host, :type => :string, :default => 'localhost'
   def test_server(environment = :development)
     borkfile = Embork::Borkfile.new options[:borkfile], environment
-    options[:test_mode] = true
-    Embork::Server.new(borkfile, options).run
+    extended_options = options.merge :test_mode => true
+    Embork::Server.new(borkfile, extended_options.freeze).run
   end
 
   desc "build [ENVIRONMENT]", %{build the project in the 'build' directory}
