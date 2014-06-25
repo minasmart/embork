@@ -1,24 +1,29 @@
 # Embork
 
-TODO: Write a gem description
+Build awesome hybrid EmberJS Apps! Embork is a build system for ember backed by
+sprockets. It works like any conventional build system, but with a focus on
+supporting multiple build targets. It also has a facility to develop with a
+rack-compatible back-end providing the index.html file.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'embork'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it as a gem!
 
     $ gem install embork
 
 ## Usage
 
-TODO: Write usage instructions here
+#### To create a new application:
+
+    $ embork new my-app
+
+#### Running the development server:
+
+    $ embork server <environment>
+
+The default environment is 'development'. There is also a production environment
+included with the generator, however, you may create as many environments as you
+want just by copying or creating a new folder under the `config` directory.
 
 ## Contributing
 
