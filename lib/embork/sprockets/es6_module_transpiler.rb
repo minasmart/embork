@@ -47,7 +47,9 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
       data
     else
       begin
-        wrap_in_closure(self.class.runtime.exec module_generator)
+        compiled_module = wrap_in_closure(self.class.runtime.exec module_generator)
+        compiled_module.gsub! %("use strict";), '' if fixture?
+        compiled_module
       rescue
         @logger.fatal 'ES6 Module error in file %s' % @logical_path
       end
@@ -74,6 +76,10 @@ class Embork::Sprockets::ES6ModuleTranspiler < Tilt::Template
 
   def template?
     !!@logical_path.match(/^templates/)
+  end
+
+  def fixture?
+    !!@logical_path.match(/^fixtures/)
   end
 
   def wrap_in_closure(compiled_code)
