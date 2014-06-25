@@ -18,7 +18,7 @@ class Embork::Server
     if !options[:bundle_version].nil?
       Embork.bundle_version = options[:bundle_version]
       setup_bundled_mode
-    elsif options[:with_latest_bundle] != false
+    elsif options[:with_latest_bundle]
       Embork.bundle_version = sorted_versions(@borkfile.project_root).first
       setup_bundled_mode
     elsif options[:test_mode]
