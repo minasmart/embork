@@ -4,6 +4,7 @@ require 'embork/environment'
 require 'embork/pushstate'
 require 'embork/forwarder'
 require 'embork/build_versions'
+require 'webrick'
 
 class Embork::Server
   include Embork::BuildVersions
@@ -21,7 +22,8 @@ class Embork::Server
     elsif options[:with_latest_bundle]
       Embork.bundle_version = sorted_versions(@borkfile.project_root).first
       setup_bundled_mode
-    elsif options[:test_mode]
+    elsif options[:enable_tests]
+      @testing = true
       setup_test_mode
     else
       setup_dev_mode
@@ -81,7 +83,15 @@ class Embork::Server
   end
 
   def run
-    Rack::Handler::WEBrick.run @app, :Port => @port, :Host => @host
+    opts = {
+      :Port => @port,
+      :Host => @host
+    }
+    if @testing
+      opts[:Logger] = WEBrick::Log.new("/dev/null")
+      opts[:AccessLog] = []
+    end
+    Rack::Handler::WEBrick.run @app, opts
   end
 
 end

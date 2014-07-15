@@ -151,7 +151,7 @@ describe 'Embork::Server' do
   end
 
   context 'test mode' do
-    let(:server) { Embork::Server.new borkfile, :test_mode => true }
+    let(:server) { Embork::Server.new borkfile, :enable_tests => true }
     let(:app) { server.app }
 
     it 'serves out the test index' do

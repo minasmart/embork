@@ -1,5 +1,6 @@
 app/app.js
 app/index.html.erb
+tests/tests.html.erb
 bower.json
 package.json
 Borkfile

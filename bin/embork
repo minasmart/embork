@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'embork'
+require 'qunit/runner'
 require 'thor'
 
 class EmborkCLI < Thor
@@ -20,18 +21,33 @@ class EmborkCLI < Thor
   option :host, :type => :string, :default => 'localhost'
   option :bundle_version, :type => :string, :default => nil
   option :with_latest_bundle, :type => :boolean, :default => false
+  option :enable_tests, :type => :boolean, :default => false
   def server(environment = :development)
     borkfile = Embork::Borkfile.new options[:borkfile], environment
     Embork::Server.new(borkfile, options).run
   end
 
-  desc "test-server [ENVIRONMENT]", %{run the qunit test server}
-  option :port, :type => :numeric, :default => 9293
-  option :host, :type => :string, :default => 'localhost'
-  def test_server(environment = :development)
+  desc "test [ENVIRONMENT]", %{run the qunit test suite}
+  def test(environment = :development)
     borkfile = Embork::Borkfile.new options[:borkfile], environment
-    extended_options = options.merge :test_mode => true
-    Embork::Server.new(borkfile, extended_options.freeze).run
+    min = 52000
+    max = 65000
+    port = (Random.rand * (max - min) + min).to_i
+    host = 'localhost'
+
+    server_options = {
+      :host => host,
+      :port => port,
+      :enable_tests => true
+    }
+
+    server = Embork::Server.new(borkfile, server_options)
+
+    server_thread = Thread.new{ server.run }
+
+    test_url = "http://%s:%s/tests.html" % [ host, port ]
+    Qunit::Runner.new(test_url).run(options[:timeout])
+    server_thread.kill
   end
 
   desc "build [ENVIRONMENT]", %{build the project in the 'build' directory}

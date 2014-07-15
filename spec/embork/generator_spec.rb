@@ -15,7 +15,12 @@ describe 'Embork::Generator' do
 
   it 'loads the list of files to be processed by ERB' do
     expect(generator.erb_files).to match_array([
-      "Borkfile", "app/app.js", "app/index.html.erb", "bower.json", "package.json"
+      "Borkfile",
+      "app/app.js",
+      "app/index.html.erb",
+      "bower.json",
+      "package.json",
+      "tests/tests.html.erb"
     ])
   end
 

@@ -7,7 +7,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     <link rel="stylesheet" href="assets/qunit.css">
     <style>
       #ember-testing-container {
@@ -25,18 +24,23 @@
         zoom: 50%;
       }
     </style>
+
+    <%%= javascript_include_tag "/application.js" %>
+    <%%= javascript_include_tag "/tests.js" %>
+
+    <script src="/qunit/qunit/qunit.js"></script>
+    <script src="/ember-qunit/dist/named-amd/main.js"></script>
+
   </head>
   <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
 
-    <script>
-      window.ENV = {{ENV}};
-    </script>
     <script src="assets/qunit.js"></script>
     <script src="assets/application.js"></script>
     <script src="assets/tests.js"></script>
     <script>
+      window.ENV = <%%= Embork.env %>;
       require('<%= namespace %>/tests/test-helper');
       require('<%= namespace %>/tests/test-loader');
     </script>
