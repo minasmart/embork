@@ -50,6 +50,12 @@ describe 'Embork::Borkfile' do
     it 'has no default es6 transform' do
       expect(borkfile.es6_transform).to eq(nil)
     end
+
+    it 'has no default phrender configuration' do
+      expect(borkfile.phrender_index).to eq(nil)
+      expect(borkfile.phrender_js_paths).to be_empty
+      expect(borkfile.phrender_boot_app).to eq(nil)
+    end
   end
 
   describe 'basic config' do
@@ -114,6 +120,15 @@ describe 'Embork::Borkfile' do
 
     it 'includes the specified es6 transform' do
       expect(borkfile.es6_transform.respond_to? :call).to eq(true)
+    end
+
+    it 'respects the phrender configuration ' do
+      expect(borkfile.phrender_index).to eq('phrender.html')
+      expect(borkfile.phrender_js_paths).to match_array [
+        'application.js',
+        :ember_driver
+      ]
+      expect(borkfile.phrender_boot_app).to eq("require('index');")
     end
   end
 
