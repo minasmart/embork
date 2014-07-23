@@ -6,7 +6,7 @@ require 'embork/version'
 Gem::Specification.new do |spec|
   spec.name          = 'embork'
   spec.version       = Embork::VERSION
-  spec.authors       = ['Matthew Smart']
+  spec.authors       = ['Mina Smart']
   spec.email         = ['mdsmart@gmail.com']
   spec.description   = %q{A tool set for building ember apps.}
   spec.summary       = %q{A tool set for building ember apps.}
