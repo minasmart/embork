@@ -21,10 +21,10 @@ compile_html [ 'index.html' ]
 
 use_framework :bootstrap
 
-phrender_index 'phrender.html'
-phrender_add_js_path 'application.js'
-phrender_add_js_path :ember_driver
-phrender_boot_app "require('index');"
+phrender_index_file 'phrender.html'
+phrender_add_javascript_file'application.js'
+phrender_add_javascript_file :ember_driver
+phrender_add_javascript "require('index');"
 
 transform_es6_module_names proc{ |name| name + 'krump' }
 

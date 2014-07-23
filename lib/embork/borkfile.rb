@@ -15,15 +15,13 @@ class Embork::Borkfile
     attr_reader :frameworks
     attr_reader :compressor
     attr_reader :es6_transform
-    attr_reader :phrender_js_paths
+    attr_reader :phrender_index_file
+    attr_reader :phrender_javascript_paths
+    attr_reader :phrender_raw_javascript
 
     # request uri path to the index file.
-    def phrender_index(index_file_path = nil)
-      @phrender_index = index_file_path || @phrender_index
-    end
-
-    def phrender_boot_app(phrender_boot_app = nil)
-      @phrender_boot_app = phrender_boot_app || @phrender_boot_app
+    def phrender_index_file(index_file_path = nil)
+      @phrender_index_file = index_file_path || @phrender_index_file
     end
 
     def keep_old_versions(number_to_keep = nil)
@@ -57,9 +55,9 @@ class Embork::Borkfile
       @logger = logger
       @compressor = nil
       @es6_transform = nil
-      @phrender_js_paths = []
-      @phrender_index_file_path = nil
-      @phrender_boot_app = nil
+      @phrender_javascript_paths = []
+      @phrender_raw_javascript = []
+      @phrender_index_file = nil
     end
 
     def use_framework(framework)
@@ -101,8 +99,12 @@ class Embork::Borkfile
       @backend = app
     end
 
-    def phrender_add_js_path(uri)
-      @phrender_js_paths.push uri
+    def phrender_add_javascript_file(path)
+      @phrender_javascript_paths.push path
+    end
+
+    def phrender_add_javascript(code)
+      @phrender_raw_javascript.push code
     end
 
     def configure(environment, &block)

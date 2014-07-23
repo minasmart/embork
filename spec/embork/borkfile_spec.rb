@@ -52,9 +52,9 @@ describe 'Embork::Borkfile' do
     end
 
     it 'has no default phrender configuration' do
-      expect(borkfile.phrender_index).to eq(nil)
-      expect(borkfile.phrender_js_paths).to be_empty
-      expect(borkfile.phrender_boot_app).to eq(nil)
+      expect(borkfile.phrender_index_file).to eq(nil)
+      expect(borkfile.phrender_javascript_paths).to be_empty
+      expect(borkfile.phrender_raw_javascript).to be_empty
     end
   end
 
@@ -123,12 +123,12 @@ describe 'Embork::Borkfile' do
     end
 
     it 'respects the phrender configuration ' do
-      expect(borkfile.phrender_index).to eq('phrender.html')
-      expect(borkfile.phrender_js_paths).to match_array [
+      expect(borkfile.phrender_index_file).to eq('phrender.html')
+      expect(borkfile.phrender_javascript_paths).to match_array [
         'application.js',
         :ember_driver
       ]
-      expect(borkfile.phrender_boot_app).to eq("require('index');")
+      expect(borkfile.phrender_raw_javascript).to include("require('index');")
     end
   end
 
