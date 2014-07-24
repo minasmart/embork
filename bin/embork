@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
 require 'embork/cli'
-require 'qunit/runner'
-require 'thor'
 
-EmborkCLI.start(ARGV)
+Embork::CLI.start(ARGV)

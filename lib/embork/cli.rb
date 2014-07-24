@@ -1,6 +1,8 @@
 require 'embork'
+require 'qunit/runner'
+require 'thor'
 
-class EmborkCLI < Thor
+class Embork::CLI < Thor
   class_option :borkfile, :type => :string, :default => "./Borkfile",
     :desc => "Path to the embork config file."
 
