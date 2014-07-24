@@ -62,9 +62,7 @@ class Embork::Server
 
     @app = Rack::Builder.new do
       use container.backend
-      use Rack::Static, :urls => [ '/' ], :root => static_directory
-      # Should never reach here. It just need s an app to run
-      run lambda { |env| [ 200, { 'Content-Type'  => 'text/html', }, '' ] }
+      run Rack::File.new(static_directory)
     end
   end
 
