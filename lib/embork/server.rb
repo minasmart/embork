@@ -23,11 +23,11 @@ class Embork::Server
       Embork.bundle_version = sorted_versions(@borkfile.project_root).first
       setup_bundled_mode
     elsif options[:enable_tests]
-      @testing = true
       setup_test_mode
     else
       setup_dev_mode
     end
+    @disable_logging = options[:disable_logging]
     @port = options[:port]
     @host = options[:host]
   end

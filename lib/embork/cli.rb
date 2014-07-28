@@ -36,12 +36,13 @@ class Embork::CLI < Thor
     server_options = {
       :host => host,
       :port => port,
-      :enable_tests => true
+      :enable_tests => true,
+      :disable_logging => true
     }
 
     server = Embork::Server.new(borkfile, server_options)
 
-    server_thread = Thread.new{ server.run }
+    server_thread = Thread.new{ server.run_webrick }
 
     test_url = "http://%s:%s/tests.html" % [ host, port ]
     Qunit::Runner.new(test_url).run(options[:timeout])

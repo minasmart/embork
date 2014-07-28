@@ -10,6 +10,7 @@ require "embork/generator"
 require "embork/logger"
 require "embork/pushstate"
 require "embork/server"
+require "embork/phrender"
 require "embork/sprockets"
 
 class Embork
