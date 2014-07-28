@@ -15,9 +15,9 @@ class Embork::Forwarder
   def call(env)
     status, headers, body = @app.call(env)
     if status == 404
-      self.class.target.new(@app).call(env)
-    else
-      [ status, headers, body ]
+      status, headers, body = self.class.target.new(@app).call(env)
+      headers['Push-State-Redirect'] = 'true'
     end
+    [ status, headers, body ]
   end
 end
