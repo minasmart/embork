@@ -1,4 +1,5 @@
 require 'rack'
+require 'webrick'
 
 require 'embork/environment'
 require 'embork/pushstate'

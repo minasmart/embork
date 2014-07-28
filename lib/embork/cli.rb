@@ -55,7 +55,7 @@ class Embork::CLI < Thor
     server_thread = Thread.new{ server.run_webrick }
 
     test_url = "http://%s:%s/tests.html" % [ host, port ]
-    Qunit::Runner.new(test_url).run(options[:timeout])
+    Qunit::Runner.new(test_url).run(10000)
     server_thread.kill
   end
 
