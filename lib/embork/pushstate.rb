@@ -7,10 +7,11 @@ class Embork::Pushstate
   def call(env)
     status, headers, body = @app.call(env)
     if status == 404
-      env['PATH_INFO'] = '/index.html'
-      @app.call(env)
-    else
-      [ status, headers, body ]
+      modified_env = env.dup
+      modified_env['PATH_INFO'] = '/index.html'
+      status, headers, body = @app.call(modified_env)
+      headers['PushState-Redirect'] = 'true'
     end
+    [ status, headers, body ]
   end
 end

@@ -4,7 +4,6 @@ require 'embork/environment'
 require 'embork/pushstate'
 require 'embork/forwarder'
 require 'embork/build_versions'
-require 'webrick'
 
 class Embork::Server
   include Embork::BuildVersions
@@ -12,6 +11,9 @@ class Embork::Server
   attr_reader :backend
   attr_reader :project_root
   attr_reader :sprockets_environment
+  attr_reader :port
+  attr_reader :host
+  attr_reader :disable_logging
   attr_reader :app
 
   def initialize(borkfile, options = {})
@@ -37,33 +39,22 @@ class Embork::Server
     @sprockets_environment = @environment.sprockets_environment
     @project_root = @borkfile.project_root
 
-    set_backend
+    static_directory = File.join(project_root, 'static')
 
-    container = self
-    static_directory = File.join(container.project_root, 'static')
-
-    @app = Rack::Builder.new do
-      use container.backend
-      use Rack::Static, :urls => [ '/images', '/fonts', ], :root => static_directory
-
-      map '/' do
-        run container.sprockets_environment
-      end
-    end
+    @cascade_apps = [
+      @sprockets_environment,
+      Rack::File.new(static_directory)
+    ]
+    @app = build_app
   end
 
   def setup_bundled_mode
     @project_root = File.join @borkfile.project_root, 'build', Embork.env.to_s
 
-    set_backend
-
     static_directory = @project_root
-    container = self
 
-    @app = Rack::Builder.new do
-      use container.backend
-      run Rack::File.new(static_directory)
-    end
+    @cascade_apps = [ Rack::File.new(static_directory) ]
+    @app = build_app
   end
 
   def setup_test_mode
@@ -71,21 +62,26 @@ class Embork::Server
     @sprockets_environment.prepend_path 'tests'
   end
 
-  def set_backend
+  def build_app
     if @borkfile.backend == :static_index
-      @backend = Embork::Pushstate
+      backend = Embork::Pushstate
     else
       Embork::Forwarder.target = @borkfile.backend
-      @backend = Embork::Forwarder
+      backend = Embork::Forwarder
+    end
+    cascade_apps = @cascade_apps
+    Rack::Builder.new do
+      use backend
+      run Rack::Cascade.new(cascade_apps)
     end
   end
 
-  def run
+  def run_webrick
     opts = {
       :Port => @port,
       :Host => @host
     }
-    if @testing
+    if @disable_logging
       opts[:Logger] = WEBrick::Log.new("/dev/null")
       opts[:AccessLog] = []
     end

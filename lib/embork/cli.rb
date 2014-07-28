@@ -22,7 +22,17 @@ class Embork::CLI < Thor
   option :enable_tests, :type => :boolean, :default => false
   def server(environment = :development)
     borkfile = Embork::Borkfile.new options[:borkfile], environment
-    Embork::Server.new(borkfile, options).run
+    Embork::Server.new(borkfile, options).run_webrick
+  end
+
+  desc "phrender [ENVIRONMENT]", %{run phrender the prerenderer}
+  option :port, :type => :numeric, :default => 9292
+  option :host, :type => :string, :default => 'localhost'
+  option :bundle_version, :type => :string, :default => nil
+  option :with_latest_bundle, :type => :boolean, :default => false
+  def phrender(environment = :development)
+    borkfile = Embork::Borkfile.new options[:borkfile], environment
+    Embork::Phrender.new(borkfile, options).run_webrick
   end
 
   desc "test [ENVIRONMENT]", %{run the qunit test suite}
