@@ -123,7 +123,7 @@ class Embork::Borkfile
     end
 
     def compress_with(compressor)
-      if SUPPORTED_COMPRESSORS.include? compressor.to_s
+      if compressor.class != Symbol || SUPPORTED_COMPRESSORS.include? compressor.to_s
         @compressor = compressor
       else
         @logger.critical 'Compressor "%s" is not currently supported by embork.' % compressor.to_s
