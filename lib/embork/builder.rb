@@ -83,6 +83,11 @@ class Embork::Builder
         FileUtils.cp src, dest
       end
 
+      # Write the current version
+      Dir.chdir build_path do
+        File.open('current-version', 'w') { |f| f.puts @version }
+      end
+
       # Clean up
       FileUtils.rm manifest_path
     end
