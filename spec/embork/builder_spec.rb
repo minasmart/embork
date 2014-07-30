@@ -18,7 +18,8 @@ describe 'Embork::Builder' do
       'deeply/nested/asset-%s.js',
       'images/image.png',
       'index-%s.html',
-      'index.html'
+      'index.html',
+      'current-version'
     ]
   end
 
