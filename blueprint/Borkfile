@@ -38,7 +38,7 @@ configure :production do
   # corresponding gem in the Gemfile.
   #
   # compress_with :closure_compiler
-  # compress_with :uglifier
+  # compress_with :uglify
 end
 
 # Use :static index to fall back to sprockets-built html files OR pass in
