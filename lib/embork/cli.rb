@@ -82,13 +82,26 @@ class Embork::CLI < Thor
   end
 
   desc "hint", %{run jshint on the app and tests}
-  option :only_app, :type => :boolean, :default => false
-  option :only_tests, :type => :boolean, :default => false
   def hint
     borkfile = Embork::Borkfile.new options[:borkfile]
     Dir.chdir borkfile.project_root do
-      system('npm run hint-app') unless options[:only_tests]
-      system('npm run hint-testss') unless options[:only_app]
+      system('node node_modules/jshint/bin/jshint app tests')
+    end
+  end
+
+  desc "deps", "Install bower and node dependencies"
+  def deps
+    if !system('which node 2>&1 > /dev/null')
+      puts "Please install node and npm before continuing."
+      exit 1
+    elsif !system('which npm 2>&1 > /dev/null')
+      puts "Please install npm before continuing."
+      exit 1
+    end
+    borkfile = Embork::Borkfile.new options[:borkfile]
+    Dir.chdir borkfile.project_root do
+      system('npm install')
+      system('node node_modules/bower/bin/bower install')
     end
   end
 
