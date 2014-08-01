@@ -28,6 +28,14 @@ module Embork::Sprockets::Helpers
   def stylesheet_embed_tag
   end
 
+  def build_version
+    if self.class.use_bundled_assets
+      self.class.bundled_version
+    else
+      nil
+    end
+  end
+
   def namespace
     Embork::Sprockets::ES6ModuleTranspiler.namespace
   end
