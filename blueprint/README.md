@@ -1,6 +1,6 @@
-# <%= name.substring(0,1).toUpperCase() + name.substring(1) %>
+Using Embork!!
 
-This README outlines the details of collaborating on this Ember application.
+This README outlines the details of installing and running Embork.
 
 ## Installation
 
