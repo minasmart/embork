@@ -85,7 +85,7 @@ class Embork::CLI < Thor
   def hint
     borkfile = Embork::Borkfile.new options[:borkfile]
     Dir.chdir borkfile.project_root do
-      system('node node_modules/jshint/bin/jshint app tests')
+      system('PATH=$(npm bin):$PATH jshint app tests')
     end
   end
 
@@ -101,7 +101,7 @@ class Embork::CLI < Thor
     borkfile = Embork::Borkfile.new options[:borkfile]
     Dir.chdir borkfile.project_root do
       system('npm install')
-      system('node node_modules/bower/bin/bower install')
+      system('PATH=$(npm bin):$PATH bower install')
     end
   end
 
