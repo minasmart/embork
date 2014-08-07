@@ -8,9 +8,9 @@
     "ember": "1.6.1",
     "ember-data": "1.0.0-beta.7",
     "ic-ajax": "~1.x",
-    "loader": "stefanpenner/loader.js#1.0.0",
+    "loader": "stefanpenner/loader.js#1.0.1",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.1",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.1",
-    "ember-resolver": "stefanpenner/ember-jj-abrams-resolver#0.1.6"
+    "ember-resolver": "stefanpenner/ember-jj-abrams-resolver#0.1.7"
   }
 }
