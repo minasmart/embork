@@ -2,11 +2,13 @@ require 'embork/sprockets/helpers'
 require 'embork/borkfile'
 
 class Embork::Extension
-  def initialize(borkfile_path, bundled_assets = false, environment = nil)
-    @borkfile = Embork::Borkfile.new options[:borkfile], environment
+  attr_reader :project_root
+
+  def initialize(project_root, bundled_assets: false, environment: nil)
     @environment = environment || Embork.env || ENV['RACK_ENV']
+    @project_root = project_root
     if bundled_assets
-      version_file_path = File.join(@borkfile.project_root, 'build',
+      version_file_path = File.join(project_root, 'build',
                                     @environment.to_s, 'current-version')
       @bundle_version = File.read(version_file_path)
       @use_bundled_assets = true
