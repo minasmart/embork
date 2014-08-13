@@ -1,7 +1,7 @@
 module Embork::Sprockets::Helpers
   module ClassMethods
     attr_accessor :use_bundled_assets
-    attr_accessor :bundled_version
+    attr_accessor :bundle_version
   end
 
   def javascript_include_tag(path)
@@ -30,7 +30,7 @@ module Embork::Sprockets::Helpers
 
   def build_version
     if self.class.use_bundled_assets
-      self.class.bundled_version
+      self.class.bundle_version
     else
       nil
     end
@@ -69,7 +69,7 @@ module Embork::Sprockets::Helpers
     path = File.dirname path_to_file
     path = nil if path == '.'
 
-    versioned_name = "%s-%s%s" % [ base, self.class.bundled_version, ext ]
+    versioned_name = "%s-%s%s" % [ base, self.class.bundle_version, ext ]
     (path.nil?) ? versioned_name : File.join(path, versioned_name)
   end
 

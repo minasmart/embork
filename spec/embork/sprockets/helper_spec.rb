@@ -57,7 +57,7 @@ describe 'Embork::Sprockets::helpers' do
   context 'versioned assets' do
     before(:each) do
       context_class.class.use_bundled_assets = true
-      context_class.class.bundled_version = '12345abcd'
+      context_class.class.bundle_version = '12345abcd'
     end
 
     context '#javascript_include_tag' do
