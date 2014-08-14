@@ -1,3 +1,7 @@
+# 0.0.11
+- Fix a bug where it was impossible to forward requests between sprockets and a
+  dynamic backend in development mode.
+
 # 0.0.10
 - Add project root to the extension. Rack applications that included it
   typically have a need to know.
