@@ -1,3 +1,7 @@
+# 0.0.10
+- Add project root to the extension. Rack applications that included it
+  typically have a need to know.
+
 # 0.0.9
 - Change every instance of 'bundled_version' to 'bundle_version' for
   consistency.
