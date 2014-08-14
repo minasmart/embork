@@ -5,7 +5,8 @@ class Embork::Extension
   attr_reader :project_root
 
   def initialize(project_root, bundled_assets: false, environment: nil)
-    @environment = environment || Embork.env || ENV['RACK_ENV']
+    @environment = environment || ENV['RACK_ENV'] || Embork.env
+    Embork.env = @environment
     @project_root = project_root
     if bundled_assets
       version_file_path = File.join(project_root, 'build',
