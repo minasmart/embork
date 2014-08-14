@@ -11,9 +11,9 @@ class Embork::Phrender < Embork::Server
       :index_file => @borkfile.phrender_index_file
     }]
     backend = @borkfile.backend
+    cascade_apps.push backend if backend
     Rack::Builder.new do
       use *phrender
-      use backend unless backend == :static_index
       run Rack::Cascade.new(cascade_apps)
     end
   end
