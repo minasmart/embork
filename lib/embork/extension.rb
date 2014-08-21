@@ -11,7 +11,7 @@ class Embork::Extension
     if bundled_assets
       version_file_path = File.join(project_root, 'build',
                                     @environment.to_s, 'current-version')
-      @bundle_version = File.read(version_file_path)
+      @bundle_version = File.read(version_file_path).strip
       @use_bundled_assets = true
     end
   end

@@ -18,7 +18,7 @@ class Embork::Builder
     @environment = Embork::Environment.new(@borkfile)
     @sprockets_environment = @environment.sprockets_environment
 
-    @version = Time.now.to_s.gsub(/( -|-| |:)/, '.')
+    @version = generate_version
 
     @sprockets_environment.context_class.use_bundled_assets = true
     @sprockets_environment.context_class.bundle_version = @version
@@ -128,6 +128,12 @@ class Embork::Builder
   end
 
   protected
+
+  def generate_version
+    Dir.chdir @project_root do
+      `git rev-parse HEAD`.strip
+    end
+  end
 
   def generate_asset_list(config_path)
     config_pathname = Pathname.new config_path

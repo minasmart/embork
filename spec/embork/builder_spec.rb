@@ -51,25 +51,29 @@ describe 'Embork::Builder' do
 
   context '#clean' do
 
-    let(:older_stamp) { Time.now - 10 }
+    let(:versions) {
+      [
+        '49b65b48a44ead62720c1c649db8fb529f730bed',
+        'f15678d0862a572f898c54e50bc4f8e0bfcc5380',
+        '0779ed758aacf70705206964a7ebe79231f4537b',
+        'c5325c6a4bee73612f839b9b59e7bdfa566674cf',
+        '45c508baf8fafa8475e1b14a2169e69a1b51c2cb',
+      ]
+    }
     let(:expected_files) do
-      (1..4).map do |delta|
-        version = (older_stamp - delta).to_s.gsub(/ -| |-|:/, '.')
-        "application-#{version}.js"
-      end.push "application-#{@asset_bundle_version}.js"
-    end
-
-    let(:unexpected_files) do
-      (5..10).map do |delta|
-        version = (older_stamp - delta).to_s.gsub(/ -| |-|:/, '.')
-        "application-#{version}.js"
+      versions[0..3].map do |v|
+        "application-%s.js" % v
       end
     end
 
+    let(:unexpected_files) do
+      [ "application-%s.js" % @asset_bundle_version ]
+    end
+
     before(:each) do
-      (1..10).each do |delta|
-        version = (older_stamp - delta).to_s.gsub(/ -| |-|:/, '.')
-        FileUtils.touch File.join(build_directory, "application-#{version}.js")
+      versions.each do |v|
+        FileUtils.touch File.join(build_directory, "application-%s.js" % v)
+        sleep 1 unless v == versions.last
       end
     end
 

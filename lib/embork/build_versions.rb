@@ -1,21 +1,29 @@
 module Embork::BuildVersions
-  VERSION_FORMAT_EXP = /\d{4}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{2}\.\d{4}/
+  VERSION_FORMAT_EXP = /[a-f0-9]{40}\.js/
 
   def sorted_versions(project_root)
     build_path = File.join(project_root, 'build', Embork.env.to_s)
 
-    versions = []
+    versioned_files = []
     Find.find(build_path) do |file|
-      version = version_name(file)
-      versions.push version if version
+      versioned_files.push(file) if file.match VERSION_FORMAT_EXP
     end
 
+    sorted_files = versioned_files.sort_by do |file|
+      File.mtime file
+    end
+
+    versions = sorted_files.map { |f| version_name f }
+
     # Tidy up!
-    versions.uniq!.sort!.reverse!
+    versions.uniq.reverse
   end
 
   def version_name(filename)
-    m = File.basename(filename).match VERSION_FORMAT_EXP
-    m.nil? ? false : m[0]
+    if match = filename.match(VERSION_FORMAT_EXP)
+      match[0]
+    else
+      nil
+    end
   end
 end

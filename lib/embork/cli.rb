@@ -66,7 +66,9 @@ class Embork::CLI < Thor
     borkfile = Embork::Borkfile.new options[:borkfile], environment
     builder = Embork::Builder.new(borkfile)
     builder.build
-    builder.clean unless options[:keep_all_old_versions]
+    if !options[:keep_all_old_versions]
+      builder.clean
+    end
   end
 
   desc "clean", %{Remove all files under the build directory}
