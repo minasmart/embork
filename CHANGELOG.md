@@ -1,3 +1,8 @@
+# 0.0.12
+- By default listen on 0.0.0.0 instead of localhost. 0.0.0.0 listens on all
+  interfaces. Localhost only answers local requests to 127.0.0.1.
+- Take out keyword arguments so that embork can run through rubinius.
+
 # 0.0.11
 - Fix a bug where it was impossible to forward requests between sprockets and a
   dynamic backend in development mode.
