@@ -4,7 +4,11 @@ require 'embork/borkfile'
 class Embork::Extension
   attr_reader :project_root
 
-  def initialize(project_root, bundled_assets: false, environment: nil)
+  def initialize(project_root, options = {})
+    # Set up defaults
+    bundled_assets = options[:bundled_assets] || false
+    environment = options[:environment] || nil
+
     @environment = environment || ENV['RACK_ENV'] || Embork.env
     Embork.env = @environment
     @project_root = project_root
