@@ -16,7 +16,7 @@ class Embork::CLI < Thor
 
   desc "server [ENVIRONMENT]", %{run the development or production server}
   option :port, :type => :numeric, :default => 9292
-  option :host, :type => :string, :default => 'localhost'
+  option :host, :type => :string, :default => '0.0.0.0'
   option :bundle_version, :type => :string, :default => nil
   option :with_latest_bundle, :type => :boolean, :default => false
   option :enable_tests, :type => :boolean, :default => false
@@ -27,7 +27,7 @@ class Embork::CLI < Thor
 
   desc "phrender [ENVIRONMENT]", %{run phrender the prerenderer}
   option :port, :type => :numeric, :default => 9292
-  option :host, :type => :string, :default => 'localhost'
+  option :host, :type => :string, :default => '0.0.0.0'
   option :bundle_version, :type => :string, :default => nil
   option :with_latest_bundle, :type => :boolean, :default => false
   def phrender(environment = :development)
@@ -41,7 +41,7 @@ class Embork::CLI < Thor
     min = 52000
     max = 65000
     port = (Random.rand * (max - min) + min).to_i
-    host = 'localhost'
+    host = '0.0.0.0'
 
     server_options = {
       :host => host,
