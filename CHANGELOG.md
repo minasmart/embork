@@ -1,3 +1,7 @@
+# 0.0.13
+- Remove the ability to have embork clean up old versions. This is better
+  outsourced to your deployment solution. Also it was buggy.
+
 # 0.0.12
 - By default listen on 0.0.0.0 instead of localhost. 0.0.0.0 listens on all
   interfaces. Localhost only answers local requests to 127.0.0.1.
