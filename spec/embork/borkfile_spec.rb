@@ -35,10 +35,6 @@ describe 'Embork::Borkfile' do
       expect(borkfile.html).to be_empty
     end
 
-    it 'keeps five old versions' do
-      expect(borkfile.keep_old_versions).to eq(5)
-    end
-
     it 'has no es6 module namespace defined' do
       expect(borkfile.es6_namespace).to eq(nil)
     end
@@ -99,10 +95,6 @@ describe 'Embork::Borkfile' do
 
     it 'uses pushstate middleware to respond with index.html' do
       expect(borkfile.backend).to eq(:static_index)
-    end
-
-    it 'keeps the specified number of old versions' do
-      expect(borkfile.keep_old_versions).to eq(10)
     end
 
     it 'sets up an es6 module namespace' do

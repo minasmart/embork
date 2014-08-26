@@ -60,15 +60,11 @@ class Embork::CLI < Thor
   end
 
   desc "build [ENVIRONMENT]", %{build the project in the 'build' directory}
-  option :keep_all_old_versions, :type => :boolean, :default => false,
-    :desc => %{By default, older versions of the project are removed, only keeping the last few versions. This flag keeps all old versions.}
+  option :desc => %{By default, older versions of the project are removed, only keeping the last few versions. This flag keeps all old versions.}
   def build(environment = :production)
     borkfile = Embork::Borkfile.new options[:borkfile], environment
     builder = Embork::Builder.new(borkfile)
     builder.build
-    if !options[:keep_all_old_versions]
-      builder.clean
-    end
   end
 
   desc "clean", %{Remove all files under the build directory}

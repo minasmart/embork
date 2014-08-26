@@ -1,8 +1,6 @@
 # vim: set ft=ruby:
 # Borkfile
 
-keep_old_versions 5
-
 set_project_root '.'
 
 # Add paths:

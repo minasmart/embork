@@ -1,7 +1,5 @@
 # vim: set ft=ruby:
 
-keep_old_versions 10
-
 set_project_root '/tmp/project_root'
 
 append_asset_path 'foo/css'

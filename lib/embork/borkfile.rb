@@ -24,10 +24,6 @@ class Embork::Borkfile
       @phrender_index_file = index_file_path || @phrender_index_file
     end
 
-    def keep_old_versions(number_to_keep = nil)
-      @keep_old_versions = number_to_keep || @keep_old_versions
-    end
-
     def es6_namespace(namespace = nil)
       @es6_namespace = namespace || @es6_namespace
     end
@@ -49,7 +45,6 @@ class Embork::Borkfile
       @project_root = nil
       @html = []
       @backend = :static_index
-      @keep_old_versions = 5
       @es6_namespace = nil
       @frameworks = []
       @logger = logger

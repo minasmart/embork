@@ -4,11 +4,8 @@ require 'webrick'
 require 'embork/environment'
 require 'embork/pushstate'
 require 'embork/forwarder'
-require 'embork/build_versions'
 
 class Embork::Server
-  include Embork::BuildVersions
-
   attr_reader :backend
   attr_reader :project_root
   attr_reader :sprockets_environment
@@ -23,7 +20,7 @@ class Embork::Server
       Embork.bundle_version = options[:bundle_version]
       setup_bundled_mode
     elsif options[:with_latest_bundle]
-      Embork.bundle_version = sorted_versions(@borkfile.project_root).first
+      Embork.bundle_version = File.read(File.join(borkfile.project_root, Embork.env, current-version))
       setup_bundled_mode
     elsif options[:enable_tests]
       setup_test_mode

@@ -4,11 +4,8 @@ require 'find'
 require 'sprockets'
 
 require 'embork/environment'
-require 'embork/build_versions'
 
 class Embork::Builder
-  include Embork::BuildVersions
-
   def initialize(borkfile)
     @borkfile = borkfile
     @project_root = @borkfile.project_root
@@ -93,34 +90,6 @@ class Embork::Builder
     end
 
     @version
-  end
-
-  def clean
-    versions = sorted_versions @project_root
-
-    # If there are more than our threshold
-    if versions.length > @borkfile.keep_old_versions
-
-      # Grab the versions to keep
-      retained_versions = versions[0...@borkfile.keep_old_versions]
-      build_path = File.join(@project_root, 'build', Embork.env.to_s)
-
-      Find.find(build_path) do |file|
-        name = File.basename(file)
-
-        # Skip if this is an unversioned file
-        next unless version_name(file)
-
-        # If any version strings that we should retain are in the file name,
-        # skip to next. Otherwise, obliterate.
-        if retained_versions.any?{ |version| name.include?(version) }
-          next
-        else
-          Dir.chdir(build_path){ FileUtils.rm file }
-        end
-      end
-    end
-
   end
 
   def clean!
