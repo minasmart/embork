@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'execjs'
   spec.add_runtime_dependency 'barber', '~> 0.4.2'
   spec.add_runtime_dependency 'colorize'
-  spec.add_runtime_dependency 'qunit-runner', '~> 0.0.1'
+  spec.add_runtime_dependency 'qunit-runner', '~> 0.0.2'
   spec.add_runtime_dependency 'phrender', '~> 0.0.5'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
