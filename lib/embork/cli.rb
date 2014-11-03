@@ -99,7 +99,7 @@ class Embork::CLI < Thor
     borkfile = Embork::Borkfile.new options[:borkfile]
     Dir.chdir borkfile.project_root do
       system('npm install')
-      system('PATH=$(npm bin):$PATH bower install')
+      system('PATH=$(npm bin):$PATH bower install --allow-root')
     end
   end
 
